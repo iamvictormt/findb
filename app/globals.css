@@ -1,0 +1,723 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+  --color-brand-navy: var(--brand-navy);
+  --color-brand-pink: var(--brand-pink);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  color-scheme: light;
+  /* Brand core */
+  --brand-navy: oklch(0.36 0.16 273);
+  --brand-pink: oklch(0.62 0.24 5);
+
+  --background: oklch(0.975 0.008 300);
+  --foreground: oklch(0.26 0.06 275);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.26 0.06 275);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.26 0.06 275);
+  --primary: oklch(0.36 0.16 273);
+  --primary-foreground: oklch(0.99 0.005 300);
+  --secondary: oklch(0.95 0.02 300);
+  --secondary-foreground: oklch(0.36 0.16 273);
+  --muted: oklch(0.955 0.012 300);
+  --muted-foreground: oklch(0.52 0.05 285);
+  --accent: oklch(0.62 0.24 5);
+  --accent-foreground: oklch(0.99 0.005 300);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.9 0.02 295);
+  --input: oklch(0.9 0.02 295);
+  --ring: oklch(0.62 0.24 5);
+  --chart-1: oklch(0.36 0.16 273);
+  --chart-2: oklch(0.62 0.24 5);
+  --chart-3: oklch(0.55 0.18 300);
+  --chart-4: oklch(0.7 0.12 200);
+  --chart-5: oklch(0.75 0.15 90);
+  --radius: 0.9rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+:root:not(.dark) {
+  color-scheme: light;
+  --background: oklch(0.985 0.012 300);
+  --foreground: oklch(0.255 0.07 274);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.255 0.07 274);
+  --primary: oklch(0.33 0.17 271);
+  --secondary: oklch(0.955 0.025 292);
+  --muted: oklch(0.958 0.015 292);
+  --muted-foreground: oklch(0.47 0.055 282);
+  --accent: oklch(0.62 0.24 5);
+  --border: oklch(0.92 0.022 292);
+  --ring: oklch(0.62 0.24 5);
+}
+
+.dark {
+  color-scheme: dark;
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    color-scheme: dark;
+    --background: oklch(0.145 0 0);
+    --foreground: oklch(0.985 0 0);
+    --card: oklch(0.205 0 0);
+    --card-foreground: oklch(0.985 0 0);
+    --popover: oklch(0.205 0 0);
+    --popover-foreground: oklch(0.985 0 0);
+    --primary: oklch(0.922 0 0);
+    --primary-foreground: oklch(0.205 0 0);
+    --secondary: oklch(0.269 0 0);
+    --secondary-foreground: oklch(0.985 0 0);
+    --muted: oklch(0.269 0 0);
+    --muted-foreground: oklch(0.708 0 0);
+    --accent: oklch(0.269 0 0);
+    --accent-foreground: oklch(0.985 0 0);
+    --destructive: oklch(0.704 0.191 22.216);
+    --border: oklch(1 0 0 / 10%);
+    --input: oklch(1 0 0 / 15%);
+    --ring: oklch(0.556 0 0);
+    --chart-1: oklch(0.87 0 0);
+    --chart-2: oklch(0.556 0 0);
+    --chart-3: oklch(0.439 0 0);
+    --chart-4: oklch(0.371 0 0);
+    --chart-5: oklch(0.269 0 0);
+    --sidebar: oklch(0.205 0 0);
+    --sidebar-foreground: oklch(0.985 0 0);
+    --sidebar-primary: oklch(0.488 0.243 264.376);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.269 0 0);
+    --sidebar-accent-foreground: oklch(0.985 0 0);
+    --sidebar-border: oklch(1 0 0 / 10%);
+    --sidebar-ring: oklch(0.556 0 0);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@theme inline {
+  --animate-marquee: marquee 92s linear infinite;
+  --animate-marquee-rev: marquee-rev 108s linear infinite;
+}
+
+/* ---------- Brand helpers ---------- */
+.text-gradient-brand {
+  background-image: linear-gradient(
+    100deg,
+    var(--brand-navy) 0%,
+    var(--brand-pink) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.bg-gradient-brand {
+  background-image: linear-gradient(
+    135deg,
+    var(--brand-navy) 0%,
+    var(--brand-pink) 100%
+  );
+}
+
+/* Soft aurora / map backdrop */
+.brand-aurora {
+  background:
+    linear-gradient(180deg, oklch(0.992 0.008 300) 0%, oklch(0.965 0.02 294) 58%, oklch(0.99 0.008 300) 100%),
+    radial-gradient(
+      48% 30% at 8% 15%,
+      color-mix(in oklch, var(--brand-navy) 18%, transparent) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      42% 30% at 88% 10%,
+      color-mix(in oklch, var(--brand-pink) 20%, transparent) 0%,
+      transparent 72%
+    ),
+    radial-gradient(
+      58% 34% at 50% 100%,
+      color-mix(in oklch, oklch(0.72 0.16 210) 18%, transparent) 0%,
+      transparent 70%
+    );
+}
+
+.findb-shell {
+  background:
+    radial-gradient(circle at 50% 0%, rgb(255 255 255 / 0.8), transparent 42%),
+    linear-gradient(180deg, rgb(255 255 255 / 0.08), rgb(255 255 255 / 0.45));
+}
+
+.europe-lines {
+  opacity: 0.58;
+  background-image:
+    radial-gradient(circle at 17% 22%, color-mix(in oklch, var(--brand-pink) 80%, white) 0 3px, transparent 3.5px),
+    radial-gradient(circle at 76% 18%, color-mix(in oklch, var(--brand-navy) 70%, white) 0 3px, transparent 3.5px),
+    radial-gradient(circle at 55% 32%, color-mix(in oklch, oklch(0.68 0.18 210) 80%, white) 0 2.5px, transparent 3px),
+    linear-gradient(118deg, transparent 11%, rgb(231 25 115 / 0.14) 11.2%, transparent 27%),
+    linear-gradient(36deg, transparent 21%, rgb(36 31 111 / 0.12) 21.3%, transparent 43%),
+    radial-gradient(color-mix(in oklch, var(--brand-navy) 16%, transparent) 1px, transparent 1.4px);
+  background-size: auto, auto, auto, auto, auto, 24px 24px;
+  mask-image: radial-gradient(90% 65% at 50% 18%, #000 18%, transparent 74%);
+  -webkit-mask-image: radial-gradient(90% 65% at 50% 18%, #000 18%, transparent 74%);
+}
+
+.hero-world-map {
+  position: absolute;
+  left: 50%;
+  top: -52px;
+  z-index: 0;
+  width: min(150vw, 660px);
+  aspect-ratio: 740 / 493;
+  height: auto;
+  transform: translateX(-50%);
+  pointer-events: none;
+  mask-image: radial-gradient(88% 70% at 50% 43%, #000 34%, transparent 100%);
+  -webkit-mask-image: radial-gradient(88% 70% at 50% 43%, #000 34%, transparent 100%);
+}
+
+@media (min-width: 390px) {
+  .hero-world-map {
+    top: -52px;
+    width: min(136vw, 720px);
+  }
+}
+
+@media (min-width: 640px) {
+  .hero-world-map {
+    top: -58px;
+    width: min(124vw, 760px);
+  }
+}
+
+.hero-world-map-image,
+.hero-world-map-overlay {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.hero-world-map-image {
+  object-fit: contain;
+  opacity: 0.22;
+  filter: sepia(1) saturate(0.6) hue-rotate(205deg) opacity(0.82);
+  mix-blend-mode: multiply;
+  user-select: none;
+}
+
+.hero-world-map-overlay {
+  overflow: visible;
+  opacity: 1;
+}
+
+.map-routes path {
+  fill: none;
+  stroke: url(#route-blue);
+  stroke-width: 1.05;
+  stroke-linecap: round;
+  stroke-dasharray: 230;
+  stroke-dashoffset: 230;
+  animation: map-route-draw 8.4s ease-in-out infinite;
+}
+
+.map-routes path:nth-child(2n) {
+  stroke: url(#route-pink);
+  animation-delay: 0.9s;
+}
+
+.map-routes path:nth-child(3n) {
+  animation-delay: 1.8s;
+}
+
+.map-point {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: map-point-pulse 2.9s ease-in-out infinite;
+}
+
+.europe-point {
+  animation-duration: 2.15s;
+}
+
+.map-point:nth-child(2n) {
+  animation-delay: 0.5s;
+}
+
+.map-point:nth-child(3n) {
+  animation-delay: 1s;
+}
+
+.point-pink {
+  color: var(--brand-pink);
+  filter: drop-shadow(0 0 10px rgb(231 25 115 / 0.9));
+}
+
+.point-blue {
+  color: oklch(0.62 0.22 250);
+  filter: drop-shadow(0 0 10px rgb(37 99 235 / 0.78));
+}
+
+.map-point-halo {
+  fill: currentColor;
+  opacity: 0.32;
+}
+
+.map-point-core {
+  fill: currentColor;
+  stroke: white;
+  stroke-width: 1.25;
+}
+
+@keyframes map-route-draw {
+  0% {
+    stroke-dashoffset: 230;
+    opacity: 0;
+  }
+  24%,
+  62% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: -230;
+    opacity: 0;
+  }
+}
+
+@keyframes map-point-pulse {
+  0%,
+  100% {
+    opacity: 0.74;
+    transform: scale(0.92);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.18);
+  }
+}
+
+/* ---------- Logo animation ---------- */
+@keyframes logo-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes logo-glow {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes ring-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes logo-breathe {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-7px) scale(1.015);
+  }
+}
+
+@keyframes halo-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(0.96);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.04);
+  }
+}
+
+@keyframes orbit-dot {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-logo-float {
+  animation: logo-float 5s ease-in-out infinite;
+}
+.animate-logo-glow {
+  animation: logo-glow 4s ease-in-out infinite;
+}
+.animate-ring-spin {
+  animation: ring-spin 18s linear infinite;
+}
+
+.brand-logo-stage {
+  animation: logo-breathe 5.8s ease-in-out infinite;
+}
+
+.logo-halo {
+  background:
+    radial-gradient(circle, rgb(255 255 255 / 0.86) 0 35%, transparent 36%),
+    conic-gradient(from 120deg, rgb(36 31 111 / 0.05), rgb(231 25 115 / 0.4), rgb(14 165 233 / 0.22), rgb(36 31 111 / 0.28), rgb(231 25 115 / 0.05));
+  filter: blur(14px);
+  animation: halo-pulse 4.8s ease-in-out infinite;
+}
+
+.logo-ring {
+  border: 1px solid rgb(255 255 255 / 0.75);
+  background:
+    linear-gradient(#fff, #fff) padding-box,
+    conic-gradient(from 0deg, transparent 0 24%, var(--brand-pink), transparent 45% 62%, var(--brand-navy), transparent 82% 100%) border-box;
+  border-color: transparent;
+  animation: ring-spin 22s linear infinite;
+}
+
+.logo-ring-alt {
+  animation-duration: 32s;
+  animation-direction: reverse;
+  opacity: 0.65;
+}
+
+.brand-logo-disc::before {
+  content: "";
+  position: absolute;
+  inset: 10%;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgb(255 255 255 / 0.78), transparent 44%);
+  pointer-events: none;
+}
+
+.connection-orbit {
+  position: absolute;
+  top: 16px;
+  width: min(92vw, 430px);
+  height: 230px;
+  border-radius: 50%;
+  border-top: 1px solid rgb(36 31 111 / 0.08);
+  border-bottom: 1px solid rgb(231 25 115 / 0.08);
+  transform: rotate(-8deg);
+}
+
+.tag-shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 0 28%, rgb(255 255 255 / 0.58) 42%, transparent 58% 100%);
+  transform: translateX(-120%);
+  transition: transform 0.8s ease;
+}
+
+.group:hover .tag-shine {
+  transform: translateX(120%);
+}
+
+.findb-link-icon {
+  transition:
+    transform 0.32s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.32s ease;
+}
+
+.findb-link-card:hover .findb-link-icon {
+  transform: scale(1.04) rotate(-2deg);
+  box-shadow: 0 10px 20px -14px rgb(36 31 111 / 0.6);
+}
+
+.findb-link-arrow {
+  transition:
+    transform 0.32s cubic-bezier(0.2, 0.8, 0.2, 1),
+    background-color 0.32s ease;
+}
+
+.findb-link-card:hover .findb-link-arrow {
+  transform: translateX(4px) scale(1.07);
+}
+
+.findb-stat-icon {
+  transition:
+    transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.group:hover .findb-stat-icon {
+  transform: translateY(-2px);
+  background-color: rgb(255 255 255 / 0.76);
+  box-shadow: 0 10px 20px -15px rgb(36 31 111 / 0.6);
+}
+
+.member-card-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgb(255 255 255 / 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 0.08) 1px, transparent 1px);
+  background-size: 22px 22px;
+  mask-image: linear-gradient(135deg, #000, transparent 70%);
+  -webkit-mask-image: linear-gradient(135deg, #000, transparent 70%);
+}
+
+.member-card-light {
+  position: absolute;
+  inset: -40% -15% auto auto;
+  width: 68%;
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.22);
+  filter: blur(24px);
+  transition: transform 0.4s ease;
+}
+
+.member-card:hover .member-card-light {
+  transform: translate(-10px, 10px) scale(1.08);
+}
+
+.flag-stage {
+  border-block: 1px solid rgb(255 255 255 / 0.72);
+  background:
+    linear-gradient(90deg, transparent, rgb(255 255 255 / 0.62), transparent),
+    radial-gradient(circle at 50% 50%, rgb(231 25 115 / 0.08), transparent 70%);
+}
+
+.intro-video {
+  min-height: 100dvh;
+}
+
+.flag-infinite-track {
+  animation: marquee 62s linear infinite;
+}
+
+.flag-infinite:hover .flag-infinite-track,
+.flag-infinite.is-paused .flag-infinite-track {
+  animation-play-state: paused;
+}
+
+.findb-flag {
+  transition:
+    transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
+    filter 0.28s ease,
+    box-shadow 0.28s ease;
+}
+
+.flag-infinite:hover .findb-flag {
+  filter: saturate(1.05);
+}
+
+.findb-flag:hover {
+  transform: translateY(-2px) scale(1.12);
+  box-shadow: 0 12px 18px -12px rgb(36 31 111 / 0.75);
+}
+
+.findb-social-link {
+  transition:
+    transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.28s ease,
+    color 0.28s ease,
+    background 0.28s ease;
+}
+
+.findb-social-link:hover {
+  color: white;
+  background: var(--social-hover);
+  border-color: transparent;
+  transform: translateY(-3px) scale(1.08);
+  box-shadow:
+    0 12px 20px -14px rgb(36 31 111 / 0.72),
+    0 0 0 4px var(--social-shadow);
+}
+
+.findb-social-link:hover svg {
+  animation: social-pop 0.46s ease both;
+}
+
+.findb-site-button:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in oklch, var(--brand-navy) 42%, white);
+  background: color-mix(in oklch, var(--brand-navy) 6%, white);
+  color: var(--brand-navy);
+  box-shadow:
+    0 10px 20px -16px rgb(36 31 111 / 0.65),
+    0 0 0 3px rgb(36 31 111 / 0.07);
+}
+
+.findb-site-button:hover svg {
+  transform: translate(2px, -2px);
+}
+
+@keyframes social-pop {
+  0% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.18) rotate(-6deg);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ---------- Flag marquee ---------- */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes marquee-rev {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.marquee-mask {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+}
+
+:root:not(.dark) {
+  color-scheme: light;
+  --background: oklch(0.985 0.012 300);
+  --foreground: oklch(0.255 0.07 274);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.255 0.07 274);
+  --primary: oklch(0.33 0.17 271);
+  --primary-foreground: oklch(0.99 0.005 300);
+  --secondary: oklch(0.955 0.025 292);
+  --secondary-foreground: oklch(0.33 0.17 271);
+  --muted: oklch(0.958 0.015 292);
+  --muted-foreground: oklch(0.47 0.055 282);
+  --accent: oklch(0.62 0.24 5);
+  --accent-foreground: oklch(0.99 0.005 300);
+  --border: oklch(0.92 0.022 292);
+  --ring: oklch(0.62 0.24 5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-logo-float,
+  .animate-logo-glow,
+  .animate-ring-spin,
+  .animate-marquee,
+  .animate-marquee-rev,
+  .flag-infinite-track,
+  .map-routes path,
+  .map-point {
+    animation: none !important;
+  }
+}
