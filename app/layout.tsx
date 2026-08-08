@@ -18,6 +18,7 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://findbeuropa.com"),
   title: "FindB Europa - Comunidades brasileiras na Europa",
   description:
     "Junte-se à FindB Europa: comunidades brasileiras em países europeus. Grupos, empregos, moradias, networking, eventos e muito mais.",
@@ -32,7 +33,30 @@ export const metadata: Metadata = {
   openGraph: {
     title: "FindB Europa - Comunidades brasileiras na Europa",
     description: "Construindo relacionamentos saudáveis. Junte-se a nós.",
+    url: "https://findbeuropa.com",
+    siteName: "FindB Europa",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "FindB Europa - Comunidades brasileiras na Europa",
+      },
+    ],
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "FindB Europa - Comunidades brasileiras na Europa",
+    description: "Construindo relacionamentos saudáveis. Junte-se a nós.",
+    images: ["/og-image.png"],
+  },
+  icons: {
+    icon: [
+      { url: "/icon.png", type: "image/png", sizes: "512x512" },
+      { url: "/images/icone.png", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
   },
 }
 

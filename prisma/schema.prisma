@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model InfluencerProfile {
+  id             String   @id @default(cuid())
+  name           String
+  email          String   @unique
+  whatsapp       String
+  country        String
+  city           String?
+  primaryNetwork String
+  socialHandle   String
+  audienceSize   Int?
+  categories     String
+  languages      String
+  motivation     String?
+  status         String   @default("PENDING")
+  referralSlug   String   @unique
+  referralCode   String   @unique
+  availableCents Int      @default(0)
+  pendingCents   Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  earnings Earning[]
+  events   ReferralEvent[]
+  invites  InfluencerInvite[] @relation("Inviter")
+}
+
+model Campaign {
+  id           String   @id @default(cuid())
+  title        String
+  description  String
+  objective    String
+  rewardCents  Int
+  currency     String   @default("EUR")
+  startsAt     DateTime @default(now())
+  endsAt       DateTime?
+  status       String   @default("ACTIVE")
+  materialType String
+  createdAt    DateTime @default(now())
+
+  earnings Earning[]
+}
+
+model ContentAsset {
+  id          String   @id @default(cuid())
+  title       String
+  type        String
+  description String
+  url         String
+  createdAt   DateTime @default(now())
+}
+
+model ReferralEvent {
+  id           String   @id @default(cuid())
+  influencerId String
+  type         String
+  value        Int      @default(1)
+  source       String?
+  metadata     String?
+  createdAt    DateTime @default(now())
+
+  influencer InfluencerProfile @relation(fields: [influencerId], references: [id], onDelete: Cascade)
+}
+
+model Earning {
+  id           String   @id @default(cuid())
+  influencerId String
+  campaignId   String?
+  amountCents  Int
+  currency     String   @default("EUR")
+  status       String   @default("PENDING")
+  description  String
+  createdAt    DateTime @default(now())
+
+  influencer InfluencerProfile @relation(fields: [influencerId], references: [id], onDelete: Cascade)
+  campaign   Campaign?         @relation(fields: [campaignId], references: [id], onDelete: SetNull)
+}
+
+model InfluencerInvite {
+  id           String   @id @default(cuid())
+  influencerId String
+  inviteeName  String
+  inviteeEmail String
+  status       String   @default("INVITED")
+  bonusCents   Int      @default(0)
+  createdAt    DateTime @default(now())
+
+  influencer InfluencerProfile @relation("Inviter", fields: [influencerId], references: [id], onDelete: Cascade)
+}

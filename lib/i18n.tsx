@@ -33,7 +33,8 @@ const translations = {
       tagline: "Construindo relacionamentos saudáveis.",
     },
     links: {
-      paises: ["Escolha seu país Europeu", "Encontre comunidades no seu país"],
+      influenciadores: ["Influenciadores Imigrantes", "Divulgue a bio e ganhe em euros"],
+      paises: ["Escolha seu país europeu", "Encontre comunidades no seu país"],
       grupos: ["Entrar nos grupos", "Comunidades e fóruns"],
       parceiro: ["Seja um parceiro ou afiliado FindB", "Parcerias que conectam"],
       indicacoes: ["Indicações", "Empregos, Moradias e muito mais."],
@@ -58,7 +59,7 @@ const translations = {
     footer: {
       follow: "Siga nossas redes",
       learnMore: "Saiba mais",
-      site: "findbeuropa.com",
+      site: "comunidadesfindbeuropa.com",
       connected: "Conectando brasileiros,",
       stories: "unindo histórias",
     },
@@ -75,6 +76,7 @@ const translations = {
       tagline: "Building healthy relationships.",
     },
     links: {
+      influenciadores: ["Immigrant Influencers", "Share the bio and earn in euros"],
       paises: ["Choose your European country", "Find communities in your country"],
       grupos: ["Join the groups", "Communities and forums"],
       parceiro: ["Become a FindB partner or affiliate", "Partnerships that connect"],
@@ -100,7 +102,7 @@ const translations = {
     footer: {
       follow: "Follow our socials",
       learnMore: "Learn more",
-      site: "findbeuropa.com",
+      site: "comunidadesfindbeuropa.com",
       connected: "Connecting Brazilians,",
       stories: "uniting stories",
     },
@@ -117,6 +119,7 @@ const translations = {
       tagline: "Construyendo relaciones saludables.",
     },
     links: {
+      influenciadores: ["Influencers Inmigrantes", "Comparte la bio y gana en euros"],
       paises: ["Elige tu país Europeo", "Encuentra comunidades en tu país"],
       grupos: ["Entrar en los grupos", "Comunidades y foros"],
       parceiro: ["Sé socio o afiliado FindB", "Alianzas que conectan"],
@@ -142,7 +145,7 @@ const translations = {
     footer: {
       follow: "Sigue nuestras redes",
       learnMore: "Saber más",
-      site: "findbeuropa.com",
+      site: "comunidadesfindbeuropa.com",
       connected: "Conectando brasileños,",
       stories: "uniendo historias",
     },

@@ -7,7 +7,7 @@ export function StatsRow() {
   const { t } = useI18n()
 
   return (
-    <section aria-label="Destaques FindB" className="rounded-[1.3rem] bg-white/90 p-2.5 shadow-[0_14px_32px_-24px_rgba(36,31,111,0.5)] ring-1 ring-white/80 backdrop-blur sm:p-3">
+    <section aria-label="Destaques FindB" className="rounded-[1.3rem] bg-white/90 p-2.5 shadow-[0_14px_32px_-24px_rgba(33,33,156,0.5)] ring-1 ring-white/80 backdrop-blur sm:p-3">
       <ul className="grid grid-cols-3 gap-1 min-[430px]:grid-cols-6 min-[430px]:divide-x min-[430px]:divide-primary/8">
         {stats.map((stat) => {
           const copy = t.stats[stat.id as keyof typeof t.stats]

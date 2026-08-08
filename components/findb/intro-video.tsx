@@ -45,7 +45,7 @@ export function IntroVideo() {
       <div aria-hidden="true" className="brand-aurora absolute inset-0" />
       <div className="relative grid h-full w-full place-items-center px-3 py-6 sm:px-6 sm:py-10">
         <video
-          className="max-h-[82dvh] w-full max-w-[min(760px,calc(100vw-24px))] rounded-[1rem] object-contain shadow-[0_28px_90px_-42px_rgba(36,31,111,0.55)] ring-1 ring-white/70 sm:rounded-[1.35rem]"
+          className="max-h-[82dvh] w-full max-w-[min(760px,calc(100vw-24px))] rounded-[1rem] object-contain shadow-[0_28px_90px_-42px_rgba(33,33,156,0.55)] ring-1 ring-white/70 sm:rounded-[1.35rem]"
           src="/videos/intro.mp4"
           autoPlay
           muted

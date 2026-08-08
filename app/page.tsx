@@ -2,20 +2,18 @@ import { BrandLogo } from "@/components/findb/brand-logo"
 import { FlagMarquee } from "@/components/findb/flag-marquee"
 import { HeroCopy } from "@/components/findb/hero-copy"
 import { HeroWorldMap } from "@/components/findb/hero-world-map"
-import { IntroVideo } from "@/components/findb/intro-video"
+import { InfluencerProgram } from "@/components/findb/influencer-program"
+import { LanguageSwitcher } from "@/components/findb/language-switcher"
 import { LinkCards } from "@/components/findb/link-cards"
-import { SiteHeader } from "@/components/findb/site-header"
+import { MemberCards } from "@/components/findb/member-cards"
 import { SocialFooter } from "@/components/findb/social-footer"
 import { StatsRow } from "@/components/findb/stats-row"
 
 export default function Page() {
   return (
     <main className="findb-shell relative min-h-screen overflow-hidden text-foreground">
-      <IntroVideo />
-
       <div aria-hidden="true" className="brand-aurora pointer-events-none fixed inset-0 -z-20" />
-
-      <SiteHeader />
+      <LanguageSwitcher />
 
       <div className="mx-auto flex w-full max-w-[640px] flex-col gap-4 px-3.5 pb-5 pt-18 min-[390px]:px-4 sm:px-6 sm:pt-20 lg:max-w-[720px]">
         <section className="relative flex flex-col items-center text-center">
@@ -32,6 +30,8 @@ export default function Page() {
 
         <StatsRow />
         <LinkCards />
+        <MemberCards />
+        <InfluencerProgram />
         <FlagMarquee />
         <SocialFooter />
       </div>

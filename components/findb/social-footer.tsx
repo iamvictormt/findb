@@ -6,7 +6,7 @@ import { useI18n } from "@/lib/i18n"
 
 const socialTone: Record<string, string> = {
   instagram:
-    "text-accent ring-accent/25 [--social-hover:#e71973] [--social-shadow:rgba(231,25,115,0.42)]",
+    "text-accent ring-accent/25 [--social-hover:#D9385F] [--social-shadow:rgba(217,56,95,0.42)]",
   facebook:
     "text-[#2563eb] ring-blue-500/25 [--social-hover:#2563eb] [--social-shadow:rgba(37,99,235,0.38)]",
   youtube:
@@ -60,7 +60,7 @@ export function SocialFooter() {
   const { t } = useI18n()
 
   return (
-    <footer className="rounded-[1.2rem] bg-white/78 px-3 py-3 text-center shadow-[0_12px_34px_-25px_rgba(36,31,111,0.55)] ring-1 ring-white/80 backdrop-blur transition duration-300 hover:bg-white/84 hover:shadow-[0_18px_44px_-30px_rgba(36,31,111,0.72)] min-[390px]:px-4 sm:px-5">
+    <footer className="rounded-[1.2rem] bg-white/78 px-3 py-3 text-center shadow-[0_12px_34px_-25px_rgba(33,33,156,0.55)] ring-1 ring-white/80 backdrop-blur transition duration-300 hover:bg-white/84 hover:shadow-[0_18px_44px_-30px_rgba(33,33,156,0.72)] min-[390px]:px-4 sm:px-5">
       <div className="grid items-center gap-3 min-[460px]:grid-cols-[112px_1fr_126px] md:grid-cols-[132px_1fr_142px]">
         <p className="text-center text-[11px] font-semibold leading-tight text-primary min-[460px]:text-left sm:text-[12px] md:text-[13px]">
           {t.footer.follow}
@@ -76,7 +76,7 @@ export function SocialFooter() {
                 aria-label={social.label}
                 className={`findb-social-link grid size-8 place-items-center rounded-full bg-white shadow-sm ring-1 transition sm:size-9 md:size-10 ${
                   socialTone[social.id] ??
-                  "text-primary ring-primary/20 [--social-hover:var(--brand-navy)] [--social-shadow:rgba(36,31,111,0.36)]"
+                  "text-primary ring-primary/20 [--social-hover:var(--brand-navy)] [--social-shadow:rgba(33,33,156,0.36)]"
                 }`}
               >
                 <SocialIcon id={social.id} />
@@ -102,13 +102,11 @@ export function SocialFooter() {
         </div>
       </div>
 
-      <p className="mt-3 flex flex-wrap items-center justify-center gap-1.5 text-[11px] font-semibold text-primary sm:text-[12px] md:text-[13px]">
-        <Lock className="size-3.5 text-primary" aria-hidden="true" />
-        {t.footer.connected}
-        <span className="inline-flex items-center gap-1 font-bold text-accent">
-          {t.footer.stories}
-        </span>
-        <Heart className="size-3.5 fill-accent text-accent" aria-hidden="true" />
+      <p className="mt-3 text-center text-[11px] font-semibold text-primary sm:text-[12px] md:text-[13px]">
+        <Lock className="mr-1.5 inline size-3.5 align-[-0.16em] text-primary" aria-hidden="true" />
+        <span>{t.footer.connected} </span>
+        <span className="font-bold text-accent">{t.footer.stories}</span>
+        <Heart className="ml-1.5 inline size-3.5 fill-accent align-[-0.16em] text-accent" aria-hidden="true" />
       </p>
     </footer>
   )
