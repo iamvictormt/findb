@@ -698,6 +698,7 @@ export function Select({
 }) {
   const id = React.useId()
   const rootRef = React.useRef<HTMLSpanElement>(null)
+  const optionPointerRef = React.useRef<{ x: number; y: number; value: string } | null>(null)
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState(defaultValue)
   const [dropdownStyle, setDropdownStyle] = React.useState<{
@@ -765,6 +766,38 @@ export function Select({
     onValueChange?.(nextValue)
   }
 
+  function startOptionPointer(event: React.PointerEvent<HTMLButtonElement>, nextValue: string) {
+    if (event.pointerType === "mouse") {
+      return
+    }
+
+    optionPointerRef.current = {
+      x: event.clientX,
+      y: event.clientY,
+      value: nextValue,
+    }
+  }
+
+  function finishOptionPointer(event: React.PointerEvent<HTMLButtonElement>, nextValue: string) {
+    if (event.pointerType === "mouse") {
+      return
+    }
+
+    const start = optionPointerRef.current
+    optionPointerRef.current = null
+
+    if (!start || start.value !== nextValue) {
+      return
+    }
+
+    const moved = Math.hypot(event.clientX - start.x, event.clientY - start.y)
+
+    if (moved <= 8) {
+      event.preventDefault()
+      chooseOption(nextValue)
+    }
+  }
+
   return (
     <span ref={rootRef} className="relative block">
       <input name={name} value={value} type="hidden" data-required={required ? "true" : undefined} readOnly />
@@ -820,6 +853,11 @@ export function Select({
                 type="button"
                 role="option"
                 aria-selected={active}
+                onPointerDown={(event) => startOptionPointer(event, option.value)}
+                onPointerUp={(event) => finishOptionPointer(event, option.value)}
+                onPointerCancel={() => {
+                  optionPointerRef.current = null
+                }}
                 onClick={() => chooseOption(option.value)}
                 className={cn(
                   "flex min-h-9 w-full items-center justify-between gap-3 rounded-md px-3 py-2 text-left text-xs font-extrabold text-primary transition hover:bg-primary/6",
