@@ -1,8 +1,10 @@
 "use server"
 
 import { revalidatePath } from "next/cache"
+import { headers } from "next/headers"
+import { setSession } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
-import { makeReferralUrl } from "@/lib/influencer-program"
+import { makeReferralUrlFromHeaders } from "@/lib/influencer-program"
 
 export type InfluencerSignupState = {
   ok: boolean
@@ -13,7 +15,7 @@ export type InfluencerSignupState = {
 
 const initialError: InfluencerSignupState = {
   ok: false,
-  message: "Não foi possível concluir o cadastro. Confira os campos e tente novamente.",
+  message: "influencerSignupError",
 }
 
 function asText(formData: FormData, key: string) {
@@ -42,30 +44,47 @@ export async function registerInfluencer(
   _prevState: InfluencerSignupState,
   formData: FormData,
 ): Promise<InfluencerSignupState> {
+  const requestHeaders = await headers()
   const name = asText(formData, "name")
   const email = asText(formData, "email").toLowerCase()
-  const whatsapp = asText(formData, "whatsapp")
-  const country = asText(formData, "country")
+  const whatsapp = asText(formData, "whatsapp").replace(/\D/g, "")
+  const countrySelection = asText(formData, "country")
+  const otherCountry = asText(formData, "otherCountry")
+  const country = countrySelection === "Outro país europeu" ? otherCountry : countrySelection
   const city = asText(formData, "city")
   const primaryNetwork = asText(formData, "primaryNetwork")
   const socialHandle = asText(formData, "socialHandle")
   const motivation = asText(formData, "motivation")
   const audienceSize = Number(asText(formData, "audienceSize") || "0")
-  const categories = formData.getAll("categories").filter(Boolean).join(", ")
+  const selectedCategories = formData.getAll("categories").filter(Boolean).map(String)
+  const otherProfession = asText(formData, "otherProfession")
+  const categories = selectedCategories
+    .map((category) => (category === "Outras profissões" && otherProfession ? `Outras profissões: ${otherProfession}` : category))
+    .join(", ")
   const languages = formData.getAll("languages").filter(Boolean).join(", ")
 
   if (!name || !email || !whatsapp || !country || !primaryNetwork || !socialHandle) {
     return initialError
   }
 
+  if (selectedCategories.includes("Outras profissões") && !otherProfession) {
+    return initialError
+  }
+
   const existing = await prisma.influencerProfile.findUnique({ where: { email } })
 
   if (existing) {
+    await setSession({
+      role: "INFLUENCER",
+      influencerId: existing.id,
+      email: existing.email,
+    })
+
     return {
       ok: true,
-      message: "Você já tem um cadastro no programa. Abrimos seu painel novamente.",
-      profileUrl: `/influenciadores/painel/${existing.referralSlug}`,
-      referralUrl: makeReferralUrl(existing.referralSlug),
+      message: "influencerAlreadyExists",
+      profileUrl: "/influenciadores/minha-conta",
+      referralUrl: makeReferralUrlFromHeaders(existing.referralSlug, requestHeaders),
     }
   }
 
@@ -87,12 +106,18 @@ export async function registerInfluencer(
     },
   })
 
+  await setSession({
+    role: "INFLUENCER",
+    influencerId: profile.id,
+    email: profile.email,
+  })
+
   revalidatePath("/influenciadores")
 
   return {
     ok: true,
-    message: "Cadastro recebido. Seu painel já está pronto enquanto a equipe avalia sua aprovação.",
-    profileUrl: `/influenciadores/painel/${profile.referralSlug}`,
-    referralUrl: makeReferralUrl(profile.referralSlug),
+    message: "influencerSignupSuccess",
+    profileUrl: "/influenciadores/minha-conta",
+    referralUrl: makeReferralUrlFromHeaders(profile.referralSlug, requestHeaders),
   }
 }

@@ -36,7 +36,7 @@ export function ReferralActions({ referralUrl, eventUrl }: { referralUrl: string
       <button
         type="button"
         onClick={copyLink}
-        className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-3 py-2 text-xs font-extrabold text-white transition hover:bg-accent"
+        className="inline-flex min-h-10 items-center justify-center gap-2 rounded-full bg-primary px-4 py-2 text-xs font-extrabold text-white shadow-[0_12px_24px_-18px_rgba(33,33,156,0.85)] transition hover:bg-accent"
       >
         <Copy className="size-4" aria-hidden="true" />
         {copied ? "Link copiado" : "Copiar link"}
@@ -44,7 +44,7 @@ export function ReferralActions({ referralUrl, eventUrl }: { referralUrl: string
       <button
         type="button"
         onClick={shareLink}
-        className="inline-flex items-center justify-center gap-2 rounded-lg bg-accent/10 px-3 py-2 text-xs font-extrabold text-accent transition hover:bg-accent hover:text-white"
+        className="inline-flex min-h-10 items-center justify-center gap-2 rounded-full bg-accent/10 px-4 py-2 text-xs font-extrabold text-accent ring-1 ring-accent/10 transition hover:bg-accent hover:text-white"
       >
         <Megaphone className="size-4" aria-hidden="true" />
         Compartilhar

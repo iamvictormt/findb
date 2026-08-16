@@ -1,5 +1,5 @@
-import { siteUrl } from "@/lib/findb-data"
 import { prisma } from "@/lib/prisma"
+import { getRequestOrigin } from "@/lib/request-url"
 
 export const influencerBenefits = [
   "Pagamentos em euros",
@@ -11,23 +11,56 @@ export const influencerBenefits = [
 ]
 
 export const acceptedCountries = [
-  "Portugal",
-  "Irlanda",
-  "Espanha",
-  "França",
-  "Itália",
   "Alemanha",
-  "Países Baixos",
-  "Bélgica",
-  "Luxemburgo",
-  "Suíça",
+  "Albânia",
+  "Andorra",
+  "Armênia",
   "Áustria",
-  "Suécia",
-  "Noruega",
+  "Azerbaijão",
+  "Belarus",
+  "Bélgica",
+  "Bósnia e Herzegovina",
+  "Bulgária",
+  "Chipre",
+  "Croácia",
   "Dinamarca",
+  "Espanha",
+  "Eslováquia",
+  "Eslovênia",
+  "Estônia",
   "Finlândia",
+  "França",
+  "Geórgia",
+  "Grécia",
+  "Hungria",
+  "Irlanda",
+  "Islândia",
+  "Itália",
+  "Kosovo",
+  "Letônia",
+  "Liechtenstein",
+  "Lituânia",
+  "Luxemburgo",
+  "Macedônia do Norte",
+  "Malta",
+  "Moldávia",
+  "Mônaco",
+  "Montenegro",
+  "Noruega",
+  "Países Baixos",
   "Polônia",
+  "Portugal",
   "República Tcheca",
+  "Reino Unido",
+  "Romênia",
+  "Rússia",
+  "San Marino",
+  "Sérvia",
+  "Suécia",
+  "Suíça",
+  "Turquia",
+  "Ucrânia",
+  "Vaticano",
   "Outro país europeu",
 ]
 
@@ -49,9 +82,13 @@ export function formatEuro(cents: number) {
   }).format(cents / 100)
 }
 
-export function makeReferralUrl(slug: string) {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? siteUrl.href.replace(/\/$/, "")
-  return `${baseUrl}/i/${slug}`
+export function makeReferralUrl(slug: string, origin?: string) {
+  const baseUrl = origin ?? process.env.NEXT_PUBLIC_SITE_URL ?? "https://findbeuropa.com"
+  return `${baseUrl.replace(/\/$/, "")}/i/${slug}`
+}
+
+export function makeReferralUrlFromHeaders(slug: string, headers: Pick<Headers, "get">) {
+  return makeReferralUrl(slug, getRequestOrigin(headers))
 }
 
 export async function getProgramOverview() {
@@ -63,7 +100,6 @@ export async function getProgramOverview() {
     }),
     prisma.contentAsset.findMany({
       orderBy: { createdAt: "desc" },
-      take: 6,
     }),
   ])
 

@@ -1,26 +1,23 @@
 "use client"
 
 import { BadgeEuro, ChevronRight, ExternalLink, Megaphone, ShieldCheck } from "lucide-react"
-
-const highlights = [
-  "Divulgue a bio da FindB Europa no seu perfil",
-  "Marque a FindB Europa nas publicações",
-  "Veja campanhas e regras oficiais na comunidade",
-]
+import { useI18n } from "@/lib/i18n"
 
 export function InfluencerProgram() {
+  const { t } = useI18n()
+
   return (
     <section id="influenciadores" aria-labelledby="influenciadores-title" className="scroll-mt-6">
       <div className="px-1 text-center">
         <p className="font-display text-[10px] font-bold uppercase tracking-[0.28em] text-primary">
-          Programa oficial. <span className="text-accent">Ganhe em euros.</span>
+          {t.influencerProgram.eyebrow} <span className="text-accent">{t.influencerProgram.accent}</span>
         </p>
       </div>
 
       <div className="mt-2.5 rounded-[1.15rem] bg-white/90 p-3 shadow-[0_10px_24px_-18px_rgba(33,33,156,0.45)] ring-1 ring-white/80 backdrop-blur min-[390px]:rounded-[1.2rem] min-[390px]:p-4 sm:p-5">
         <a
           href="/influenciadores"
-          aria-label="Abrir comunidade FindB Europa para participar do programa Influenciadores Imigrantes"
+          aria-label={t.influencerProgram.title}
           className="findb-link-card group relative flex min-h-[76px] items-center gap-3 overflow-hidden rounded-[1rem] bg-white/80 px-3 py-3 ring-1 ring-white/80 transition duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-[0_18px_38px_-24px_rgba(33,33,156,0.78)] min-[390px]:gap-3.5 min-[390px]:px-4 sm:min-h-[84px] sm:gap-4 sm:px-5"
         >
           <span aria-hidden="true" className="findb-link-shine" />
@@ -33,13 +30,13 @@ export function InfluencerProgram() {
               id="influenciadores-title"
               className="block font-display text-[15px] font-extrabold leading-tight text-primary text-pretty min-[390px]:text-[16px] sm:text-lg"
             >
-              Influenciadores Imigrantes
+              {t.influencerProgram.title}
             </span>
             <span className="mt-0.5 block text-[11.5px] font-semibold leading-snug text-muted-foreground text-pretty min-[390px]:text-[12.5px] sm:text-[13.5px]">
-              Divulgue a FindB Europa, receba seu link exclusivo e acompanhe campanhas para ganhar em euros.
+              {t.influencerProgram.description}
             </span>
             <span className="mt-2 inline-flex items-center gap-1 rounded-full bg-accent/8 px-2.5 py-1 text-[10px] font-extrabold text-accent">
-              Quero Ganhar em Euros
+              {t.influencerProgram.cta}
               <ExternalLink className="size-3" aria-hidden="true" />
             </span>
           </span>
@@ -50,7 +47,7 @@ export function InfluencerProgram() {
         </a>
 
         <div className="mt-3 grid gap-2 sm:grid-cols-3">
-          {highlights.map((item, index) => {
+          {t.influencerProgram.highlights.map((item, index) => {
             const Icon = index === 0 ? Megaphone : ShieldCheck
 
             return (
@@ -68,7 +65,7 @@ export function InfluencerProgram() {
         </div>
 
         <p className="mt-3 rounded-[0.9rem] bg-white/74 px-3 py-2.5 text-center text-[11px] font-semibold leading-relaxed text-primary/82 ring-1 ring-white/80 min-[390px]:px-4 sm:text-xs">
-          A participação está sujeita à aprovação da FindB Europa, aos Termos de Uso e às regras de cada campanha.
+          {t.influencerProgram.disclaimer}
         </p>
       </div>
     </section>

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { ChevronDown, Globe, Menu, X } from "lucide-react"
 import { linkTags } from "@/lib/findb-data"
 import { languages, useI18n, type Lang } from "@/lib/i18n"
@@ -8,11 +9,13 @@ import { languages, useI18n, type Lang } from "@/lib/i18n"
 export function SiteHeader() {
   const [open, setOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
+  const router = useRouter()
   const { lang, setLang, t } = useI18n()
 
   function chooseLanguage(nextLang: Lang) {
     setLang(nextLang)
     setLangOpen(false)
+    router.refresh()
   }
 
   return (
@@ -27,7 +30,7 @@ export function SiteHeader() {
             className="flex items-center gap-1.5 rounded-full border border-white/75 bg-white/65 px-3 py-1.5 text-sm font-bold text-primary shadow-sm backdrop-blur transition hover:bg-white"
           >
             <Globe className="size-4 text-primary" aria-hidden="true" />
-            {languages.find((item) => item.code === lang)?.label ?? "PT"}
+            {languages.find((item) => item.code === lang)?.label ?? "BR"}
             <ChevronDown
               className={`size-3.5 text-muted-foreground transition ${langOpen ? "rotate-180" : ""}`}
               aria-hidden="true"
@@ -35,17 +38,17 @@ export function SiteHeader() {
           </button>
 
           {langOpen && (
-            <div className="absolute right-0 top-11 w-36 overflow-hidden rounded-2xl border border-white/75 bg-white/92 p-1.5 shadow-xl backdrop-blur-xl">
+            <div className="absolute right-0 top-11 z-[130] w-52 overflow-hidden rounded-2xl border border-white/75 bg-white/96 p-1.5 shadow-[0_26px_70px_-34px_rgba(33,33,156,0.92)] backdrop-blur-xl">
               {languages.map((item) => (
                 <button
                   key={item.code}
                   type="button"
                   onClick={() => chooseLanguage(item.code)}
-                  className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-xs font-bold transition hover:bg-primary/7 ${
+                  className={`flex w-full items-center justify-between gap-3 rounded-xl px-3 py-2 text-left text-xs font-bold transition hover:bg-primary/7 ${
                     item.code === lang ? "text-accent" : "text-primary"
                   }`}
                 >
-                  <span>{item.name}</span>
+                  <span className="min-w-0 truncate">{item.name}</span>
                   <span>{item.label}</span>
                 </button>
               ))}

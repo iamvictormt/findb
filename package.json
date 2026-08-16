@@ -8,19 +8,19 @@
     "start": "next start",
     "lint": "eslint .",
     "db:generate": "prisma generate",
-    "db:push": "tsx prisma/setup-db.ts",
-    "db:setup": "tsx prisma/setup-db.ts",
-    "db:seed": "tsx prisma/seed.ts"
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "db:seed": "tsx --env-file=.env prisma/seed.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.5.0",
     "@prisma/client": "^6.19.3",
     "@vercel/analytics": "1.6.1",
-    "better-sqlite3": "^13.0.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^1.16.0",
     "next": "16.3.0",
+    "nodemailer": "^9.0.5",
     "prisma": "^6.19.3",
     "qrcode": "^1.5.4",
     "react": "^19",
@@ -31,8 +31,8 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.3",
-    "@types/better-sqlite3": "^9.6.0",
     "@types/node": "^24",
+    "@types/nodemailer": "^8.0.1",
     "@types/qrcode": "^1.5.6",
     "@types/react": "^19",
     "@types/react-dom": "^19",

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
+import { recordReferralEvent } from "@/lib/referral-events"
 
 const allowedTypes = new Set(["CLICK", "SHARE", "SIGNUP", "VIEW"])
 
@@ -31,13 +32,12 @@ async function recordEvent(request: Request, context: EventRouteContext) {
     return NextResponse.json({ ok: false, message: "Influenciador nao encontrado." }, { status: 404 })
   }
 
-  await prisma.referralEvent.create({
-    data: {
-      influencerId: profile.id,
-      type,
-      source: url.searchParams.get("source"),
-    },
+  const result = await recordReferralEvent({
+    influencerId: profile.id,
+    type,
+    source: url.searchParams.get("source"),
+    headers: request.headers,
   })
 
-  return NextResponse.json({ ok: true })
+  return NextResponse.json({ ok: true, created: result.created })
 }

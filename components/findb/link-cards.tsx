@@ -1,10 +1,23 @@
 "use client"
 
-import { ChevronRight } from "lucide-react"
-import { linkTags, type LinkTag } from "@/lib/findb-data"
-import { useI18n } from "@/lib/i18n"
+import {
+  BadgeEuro,
+  BriefcaseBusiness,
+  CalendarDays,
+  ChevronRight,
+  CreditCard,
+  Globe2,
+  Handshake,
+  MessageCircle,
+  Network,
+  Plane,
+  UsersRound,
+  type LucideIcon,
+} from "lucide-react"
+import type { HomeLinkView } from "@/lib/home-links"
+import { useI18n, type Lang } from "@/lib/i18n"
 
-const toneStyles: Record<LinkTag["tone"], { icon: string; arrow: string; arrowBg: string }> = {
+const toneStyles: Record<HomeLinkView["tone"], { icon: string; arrow: string; arrowBg: string }> = {
   blue: {
     icon: "bg-blue-500/10 text-blue-600",
     arrow: "text-blue-600",
@@ -32,15 +45,30 @@ const toneStyles: Record<LinkTag["tone"], { icon: string; arrow: string; arrowBg
   },
 }
 
-export function LinkCards() {
-  const { t } = useI18n()
+const icons: Record<string, LucideIcon> = {
+  BadgeEuro,
+  BriefcaseBusiness,
+  CalendarDays,
+  ChevronRight,
+  CreditCard,
+  Globe2,
+  Handshake,
+  MessageCircle,
+  Network,
+  Plane,
+  UsersRound,
+}
+
+export function LinkCards({ links }: { links: HomeLinkView[] }) {
+  const { lang } = useI18n()
 
   return (
     <ul className="flex flex-col gap-2.5">
-      {linkTags.map((tag) => {
+      {links.map((tag) => {
         const tone = toneStyles[tag.tone]
         const isExternal = tag.href.startsWith("http")
-        const copy = t.links[tag.id as keyof typeof t.links]
+        const Icon = icons[tag.icon] ?? ChevronRight
+        const copy = getLocalizedCopy(tag, lang)
 
         return (
           <li key={tag.id}>
@@ -52,15 +80,15 @@ export function LinkCards() {
             >
               <span aria-hidden="true" className="findb-link-shine" />
               <span className={`findb-link-icon grid size-11 shrink-0 place-items-center rounded-full min-[390px]:size-12 sm:size-[52px] ${tone.icon}`}>
-                <tag.icon className="size-[22px] transition-transform duration-300 group-hover:scale-110 min-[390px]:size-6 sm:size-[26px]" aria-hidden="true" />
+                <Icon className="size-[22px] transition-transform duration-300 group-hover:scale-110 min-[390px]:size-6 sm:size-[26px]" aria-hidden="true" />
               </span>
 
               <span className="min-w-0 flex-1 text-left">
                 <span className="block font-display text-[14px] font-semibold leading-snug text-primary text-pretty min-[390px]:text-[15px] sm:text-base">
-                  {copy?.[0] ?? tag.title}
+                  {copy.title}
                 </span>
                 <span className="block text-[11.5px] font-semibold leading-snug text-muted-foreground text-pretty min-[390px]:text-[12.5px] sm:text-[13.5px]">
-                  {copy?.[1] ?? tag.subtitle}
+                  {copy.subtitle}
                 </span>
               </span>
 
@@ -75,4 +103,39 @@ export function LinkCards() {
       })}
     </ul>
   )
+}
+
+function getLocalizedCopy(tag: HomeLinkView, lang: Lang) {
+  if (lang === "ptPt") {
+    return {
+      title: tag.titlePtPt || tag.title,
+      subtitle: tag.subtitlePtPt || tag.subtitle,
+    }
+  }
+
+  if (lang === "en") {
+    return {
+      title: tag.titleEn || tag.title,
+      subtitle: tag.subtitleEn || tag.subtitle,
+    }
+  }
+
+  if (lang === "es") {
+    return {
+      title: tag.titleEs || tag.title,
+      subtitle: tag.subtitleEs || tag.subtitle,
+    }
+  }
+
+  if (lang === "fr") {
+    return {
+      title: tag.titleFr || tag.title,
+      subtitle: tag.subtitleFr || tag.subtitle,
+    }
+  }
+
+  return {
+    title: tag.title,
+    subtitle: tag.subtitle,
+  }
 }
