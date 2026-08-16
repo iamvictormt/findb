@@ -4,7 +4,7 @@ import { ArrowLeft, BadgeEuro, BarChart3, Download, FileText, LogIn, Megaphone, 
 import { BrandLogo } from "@/components/findb/brand-logo"
 import { InfluencerSignupForm } from "@/components/findb/influencer-signup-form"
 import { LanguageSwitcher } from "@/components/findb/language-switcher"
-import { acceptedCountries, formatEuro, getProgramOverview } from "@/lib/influencer-program"
+import { formatEuro, getLocalizedAcceptedCountries, getProgramOverview } from "@/lib/influencer-program"
 import { getServerCopy, getServerLang, localizeContentAsset, publicInfluencerCopy } from "@/lib/server-copy"
 
 export const dynamic = "force-dynamic"
@@ -14,6 +14,9 @@ export default async function InfluencerPage() {
   const pageCopy = publicInfluencerCopy[lang]
   const { campaigns, assets } = await getProgramOverview()
   const quickActions = getQuickActions(assets, pageCopy)
+  const acceptedCountryNames = getLocalizedAcceptedCountries(lang)
+    .map((country) => country.label)
+    .join(", ")
 
   return (
     <main className="findb-shell relative min-h-screen overflow-hidden text-foreground">
@@ -145,7 +148,7 @@ export default async function InfluencerPage() {
         <section className="rounded-[1.2rem] bg-white/82 p-4 text-center ring-1 ring-white/90">
           <h2 className="font-display text-lg font-extrabold text-primary">{pageCopy.acceptedCountriesTitle}</h2>
           <p className="mt-2 text-xs font-semibold leading-relaxed text-muted-foreground">
-            {pageCopy.acceptedCountriesText(acceptedCountries.slice(0, -1).join(", "))}
+            {pageCopy.acceptedCountriesText(acceptedCountryNames)}
           </p>
         </section>
       </div>

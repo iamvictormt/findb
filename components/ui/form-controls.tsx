@@ -820,6 +820,10 @@ export function Select({
                 type="button"
                 role="option"
                 aria-selected={active}
+                onPointerDown={(event) => {
+                  event.preventDefault()
+                  chooseOption(option.value)
+                }}
                 onClick={() => chooseOption(option.value)}
                 className={cn(
                   "flex min-h-9 w-full items-center justify-between gap-3 rounded-md px-3 py-2 text-left text-xs font-extrabold text-primary transition hover:bg-primary/6",
