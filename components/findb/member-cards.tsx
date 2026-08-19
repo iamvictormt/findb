@@ -1,6 +1,7 @@
 "use client"
 
 import { ChevronLeft, ChevronRight } from "lucide-react"
+import Image from "next/image"
 import { useEffect, useRef, useState } from "react"
 
 const memberCardSlides = [
@@ -190,20 +191,22 @@ export function MemberCards() {
           </a>
         </div>
 
-        <div className="relative">
-          <div className="relative mx-auto w-full max-w-[540px]">
-            <div className="member-slide-stage relative grid aspect-[1.8/1] place-items-center overflow-hidden rounded-[0.95rem] bg-white p-1.5 shadow-[0_22px_55px_-35px_rgba(33,33,156,0.9)] ring-1 ring-white/90 min-[390px]:rounded-[1.1rem] min-[390px]:p-2">
-              <img
+        <div className="relative mx-auto w-full max-w-[560px]">
+          <div className="relative w-full">
+            <div className="member-slide-stage relative aspect-[1063/591] overflow-hidden rounded-[0.95rem] bg-white shadow-[0_22px_55px_-35px_rgba(33,33,156,0.9)] ring-1 ring-white/90 min-[390px]:rounded-[1.1rem]">
+              <Image
                 key={`${activeCard.id}-${side}`}
                 src={side === "front" ? activeCard.front : activeCard.back}
                 alt={`Cartão ${activeCard.title} - ${side === "front" ? "frente" : "verso"}`}
-                className="member-slide-image h-full w-full rounded-[0.7rem] object-contain min-[390px]:rounded-[0.85rem]"
+                fill
+                sizes="(max-width: 640px) calc(100vw - 64px), 560px"
+                className="member-slide-image object-cover"
                 draggable={false}
               />
             </div>
           </div>
 
-          <div className="mt-3 flex flex-col gap-2 px-1 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+          <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
             <div className="min-w-0">
               <p className="font-display text-[15px] font-extrabold leading-tight text-primary min-[390px]:text-base">
                 {activeCard.title}
@@ -265,7 +268,7 @@ export function MemberCards() {
 
           <div
             ref={thumbnailRailRef}
-            className="mt-3 flex snap-x snap-mandatory gap-2 overflow-x-auto overscroll-x-contain px-1 py-1.5 pr-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            className="mt-3 flex snap-x snap-mandatory gap-2 overflow-x-auto overscroll-x-contain py-1.5 pr-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
             {memberCardSlides.map((card, index) => (
               <button
@@ -282,10 +285,13 @@ export function MemberCards() {
                     : "border-white/80 opacity-72 hover:opacity-100"
                 }`}
               >
-                <img
+                <Image
                   src={card.front}
                   alt=""
-                  className="aspect-[1.58/1] w-full rounded-[0.4rem] object-cover"
+                  width={1063}
+                  height={591}
+                  sizes="98px"
+                  className="aspect-[1063/591] w-full rounded-[0.4rem] object-cover"
                   draggable={false}
                 />
               </button>

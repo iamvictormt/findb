@@ -3,6 +3,7 @@ import type { LucideIcon } from "lucide-react"
 import {
   BadgeEuro,
   BarChart3,
+  CalendarCheck2,
   CheckCircle2,
   ChevronRight,
   Clock3,
@@ -20,15 +21,16 @@ import { HeroWorldMap } from "@/components/findb/hero-world-map"
 import { requireAdminSession } from "@/lib/auth"
 import { formatEuro } from "@/lib/influencer-program"
 import { prisma } from "@/lib/prisma"
-import { getServerCopy, statusLabel } from "@/lib/server-copy"
+import { adminSchedulingCopy, getServerCopy, getServerLang, statusLabel } from "@/lib/server-copy"
 
 export const dynamic = "force-dynamic"
 
 export default async function AdminPage() {
   const { admin } = await requireAdminSession()
-  const c = await getServerCopy()
+  const [c, lang] = await Promise.all([getServerCopy(), getServerLang()])
+  const schedulingCopy = adminSchedulingCopy[lang]
 
-  const [profiles, campaigns, homeLinks, documents, earnings, total, statusGroups] = await Promise.all([
+  const [profiles, campaigns, homeLinks, documents, meetingSlots, earnings, total, statusGroups] = await Promise.all([
     prisma.influencerProfile.findMany({
       orderBy: { createdAt: "desc" },
       take: 6,
@@ -36,6 +38,13 @@ export default async function AdminPage() {
     prisma.campaign.count({ where: { status: "ACTIVE" } }),
     prisma.homeLink.count({ where: { isActive: true } }),
     prisma.contentAsset.count(),
+    prisma.meetingSlot.count({
+      where: {
+        isActive: true,
+        startsAt: { gt: new Date() },
+        booking: null,
+      },
+    }),
     prisma.earning.aggregate({ _sum: { amountCents: true } }),
     prisma.influencerProfile.count(),
     prisma.influencerProfile.groupBy({
@@ -92,6 +101,13 @@ export default async function AdminPage() {
       subtitle: c.adminHome.documentsCount(documents),
       href: "/admin/documentos",
       tone: "bg-cyan-500/10 text-cyan-600",
+    },
+    {
+      icon: CalendarCheck2,
+      title: schedulingCopy.adminShortcutTitle,
+      subtitle: schedulingCopy.adminShortcutSubtitle(meetingSlots),
+      href: "/admin/agendamentos",
+      tone: "bg-emerald-500/12 text-emerald-600",
     },
   ]
 

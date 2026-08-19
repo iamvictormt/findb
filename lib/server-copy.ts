@@ -1286,6 +1286,305 @@ export const publicInfluencerCopy: Record<
   },
 }
 
+export const adminSchedulingCopy: Record<
+  ServerLang,
+  {
+    back: string
+    eyebrow: string
+    titleStart: string
+    titleAccent: string
+    description: string
+    released: string
+    available: string
+    reserved: string
+    formTitle: string
+    formDescription: string
+    date: string
+    time: string
+    duration: string
+    minutes: (count: number) => string
+    oneHour: string
+    oneHourThirty: string
+    internalNote: string
+    optional: string
+    saving: string
+    createSlot: string
+    nextSlotsEyebrow: string
+    configuredSchedule: string
+    reservedStatus: string
+    availableStatus: string
+    inactiveStatus: string
+    fromTo: (start: string, end: string) => string
+    activate: string
+    deactivate: string
+    delete: string
+    noFutureSlots: string
+    requestsEyebrow: string
+    scheduledMeetings: string
+    adminShortcutTitle: string
+    adminShortcutSubtitle: (count: number) => string
+    cancelMeeting: string
+    noMeetings: string
+    deleteSlotTitle: string
+    deleteSlotDescription: string
+    deactivateSlotTitle: string
+    deactivateSlotDescription: string
+    activateSlotTitle: string
+    activateSlotDescription: string
+    cancelMeetingTitle: string
+    cancelMeetingDescription: string
+    confirmDeactivate: string
+    confirmActivate: string
+    confirmCancelMeeting: string
+  }
+> = {
+  ptBr: {
+    back: "Admin",
+    eyebrow: "Agenda de parcerias",
+    titleStart: "Datas e horários",
+    titleAccent: "disponíveis",
+    description: "Configure os horários que podem ser escolhidos antes de fechar uma parceria. Qualquer horário fora dessa lista é recusado no servidor.",
+    released: "Liberados",
+    available: "Disponíveis",
+    reserved: "Reservados",
+    formTitle: "Liberar novo horário",
+    formDescription: "Esse horário aparecerá no cadastro somente se estiver ativo e sem reserva.",
+    date: "Data",
+    time: "Hora",
+    duration: "Duração",
+    minutes: (count) => `${count} minutos`,
+    oneHour: "1 hora",
+    oneHourThirty: "1h30",
+    internalNote: "Observação interna",
+    optional: "Opcional",
+    saving: "Salvando...",
+    createSlot: "Liberar horário",
+    nextSlotsEyebrow: "Próximos horários",
+    configuredSchedule: "Agenda configurada",
+    reservedStatus: "Reservado",
+    availableStatus: "Disponível",
+    inactiveStatus: "Inativo",
+    fromTo: (start, end) => `${start} até ${end}`,
+    activate: "Ativar",
+    deactivate: "Desativar",
+    delete: "Excluir",
+    noFutureSlots: "Nenhum horário futuro cadastrado.",
+    requestsEyebrow: "Solicitações",
+    scheduledMeetings: "Reuniões agendadas",
+    adminShortcutTitle: "Agenda de parcerias",
+    adminShortcutSubtitle: (count) => `${count} horários disponíveis`,
+    cancelMeeting: "Marcar como cancelada",
+    noMeetings: "Nenhuma reunião agendada ainda.",
+    deleteSlotTitle: "Excluir horário",
+    deleteSlotDescription: "Essa ação remove o horário da agenda e ele não poderá mais ser escolhido no cadastro.",
+    deactivateSlotTitle: "Desativar horário",
+    deactivateSlotDescription: "Esse horário deixará de aparecer no cadastro, mas continuará salvo no painel.",
+    activateSlotTitle: "Ativar horário",
+    activateSlotDescription: "Esse horário voltará a aparecer no cadastro se ainda estiver livre.",
+    cancelMeetingTitle: "Cancelar reunião",
+    cancelMeetingDescription: "Essa ação marca a reunião como cancelada no painel administrativo.",
+    confirmDeactivate: "Confirmar desativação",
+    confirmActivate: "Confirmar ativação",
+    confirmCancelMeeting: "Confirmar cancelamento",
+  },
+  ptPt: {
+    back: "Admin",
+    eyebrow: "Agenda de parcerias",
+    titleStart: "Datas e horários",
+    titleAccent: "disponíveis",
+    description: "Configure os horários que podem ser escolhidos antes de fechar uma parceria. Qualquer horário fora desta lista é recusado no servidor.",
+    released: "Liberados",
+    available: "Disponíveis",
+    reserved: "Reservados",
+    formTitle: "Liberar novo horário",
+    formDescription: "Este horário aparecerá no registo apenas se estiver ativo e sem reserva.",
+    date: "Data",
+    time: "Hora",
+    duration: "Duração",
+    minutes: (count) => `${count} minutos`,
+    oneHour: "1 hora",
+    oneHourThirty: "1h30",
+    internalNote: "Observação interna",
+    optional: "Opcional",
+    saving: "A guardar...",
+    createSlot: "Liberar horário",
+    nextSlotsEyebrow: "Próximos horários",
+    configuredSchedule: "Agenda configurada",
+    reservedStatus: "Reservado",
+    availableStatus: "Disponível",
+    inactiveStatus: "Inativo",
+    fromTo: (start, end) => `${start} até ${end}`,
+    activate: "Ativar",
+    deactivate: "Desativar",
+    delete: "Eliminar",
+    noFutureSlots: "Nenhum horário futuro registado.",
+    requestsEyebrow: "Solicitações",
+    scheduledMeetings: "Reuniões agendadas",
+    adminShortcutTitle: "Agenda de parcerias",
+    adminShortcutSubtitle: (count) => `${count} horários disponíveis`,
+    cancelMeeting: "Marcar como cancelada",
+    noMeetings: "Nenhuma reunião agendada ainda.",
+    deleteSlotTitle: "Eliminar horário",
+    deleteSlotDescription: "Esta ação remove o horário da agenda e ele não poderá mais ser escolhido no registo.",
+    deactivateSlotTitle: "Desativar horário",
+    deactivateSlotDescription: "Este horário deixará de aparecer no registo, mas continuará guardado no painel.",
+    activateSlotTitle: "Ativar horário",
+    activateSlotDescription: "Este horário voltará a aparecer no registo se ainda estiver livre.",
+    cancelMeetingTitle: "Cancelar reunião",
+    cancelMeetingDescription: "Esta ação marca a reunião como cancelada no painel administrativo.",
+    confirmDeactivate: "Confirmar desativação",
+    confirmActivate: "Confirmar ativação",
+    confirmCancelMeeting: "Confirmar cancelamento",
+  },
+  en: {
+    back: "Admin",
+    eyebrow: "Partnership schedule",
+    titleStart: "Available",
+    titleAccent: "dates and times",
+    description: "Configure the times people can choose before closing a partnership. Any time outside this list is rejected on the server.",
+    released: "Released",
+    available: "Available",
+    reserved: "Reserved",
+    formTitle: "Release a new time",
+    formDescription: "This time appears in signup only when it is active and unreserved.",
+    date: "Date",
+    time: "Time",
+    duration: "Duration",
+    minutes: (count) => `${count} minutes`,
+    oneHour: "1 hour",
+    oneHourThirty: "1h30",
+    internalNote: "Internal note",
+    optional: "Optional",
+    saving: "Saving...",
+    createSlot: "Release time",
+    nextSlotsEyebrow: "Upcoming times",
+    configuredSchedule: "Configured schedule",
+    reservedStatus: "Reserved",
+    availableStatus: "Available",
+    inactiveStatus: "Inactive",
+    fromTo: (start, end) => `${start} to ${end}`,
+    activate: "Activate",
+    deactivate: "Deactivate",
+    delete: "Delete",
+    noFutureSlots: "No future times registered.",
+    requestsEyebrow: "Requests",
+    scheduledMeetings: "Scheduled meetings",
+    adminShortcutTitle: "Partnership schedule",
+    adminShortcutSubtitle: (count) => `${count} available times`,
+    cancelMeeting: "Mark as canceled",
+    noMeetings: "No meetings scheduled yet.",
+    deleteSlotTitle: "Delete time",
+    deleteSlotDescription: "This removes the time from the schedule and it can no longer be chosen during signup.",
+    deactivateSlotTitle: "Deactivate time",
+    deactivateSlotDescription: "This time will stop appearing during signup, but it remains saved in the admin panel.",
+    activateSlotTitle: "Activate time",
+    activateSlotDescription: "This time will appear during signup again if it is still free.",
+    cancelMeetingTitle: "Cancel meeting",
+    cancelMeetingDescription: "This marks the meeting as canceled in the admin panel.",
+    confirmDeactivate: "Confirm deactivation",
+    confirmActivate: "Confirm activation",
+    confirmCancelMeeting: "Confirm cancellation",
+  },
+  es: {
+    back: "Admin",
+    eyebrow: "Agenda de alianzas",
+    titleStart: "Fechas y horarios",
+    titleAccent: "disponibles",
+    description: "Configura los horarios que pueden elegirse antes de cerrar una alianza. Cualquier horario fuera de esta lista se rechaza en el servidor.",
+    released: "Liberados",
+    available: "Disponibles",
+    reserved: "Reservados",
+    formTitle: "Liberar nuevo horario",
+    formDescription: "Este horario aparece en el registro solo si está activo y sin reserva.",
+    date: "Fecha",
+    time: "Hora",
+    duration: "Duración",
+    minutes: (count) => `${count} minutos`,
+    oneHour: "1 hora",
+    oneHourThirty: "1h30",
+    internalNote: "Observación interna",
+    optional: "Opcional",
+    saving: "Guardando...",
+    createSlot: "Liberar horario",
+    nextSlotsEyebrow: "Próximos horarios",
+    configuredSchedule: "Agenda configurada",
+    reservedStatus: "Reservado",
+    availableStatus: "Disponible",
+    inactiveStatus: "Inactivo",
+    fromTo: (start, end) => `${start} hasta ${end}`,
+    activate: "Activar",
+    deactivate: "Desactivar",
+    delete: "Eliminar",
+    noFutureSlots: "No hay horarios futuros registrados.",
+    requestsEyebrow: "Solicitudes",
+    scheduledMeetings: "Reuniones agendadas",
+    adminShortcutTitle: "Agenda de alianzas",
+    adminShortcutSubtitle: (count) => `${count} horarios disponibles`,
+    cancelMeeting: "Marcar como cancelada",
+    noMeetings: "No hay reuniones agendadas todavía.",
+    deleteSlotTitle: "Eliminar horario",
+    deleteSlotDescription: "Esta acción elimina el horario de la agenda y ya no podrá elegirse en el registro.",
+    deactivateSlotTitle: "Desactivar horario",
+    deactivateSlotDescription: "Este horario dejará de aparecer en el registro, pero seguirá guardado en el panel.",
+    activateSlotTitle: "Activar horario",
+    activateSlotDescription: "Este horario volverá a aparecer en el registro si aún está libre.",
+    cancelMeetingTitle: "Cancelar reunión",
+    cancelMeetingDescription: "Esta acción marca la reunión como cancelada en el panel administrativo.",
+    confirmDeactivate: "Confirmar desactivación",
+    confirmActivate: "Confirmar activación",
+    confirmCancelMeeting: "Confirmar cancelación",
+  },
+  fr: {
+    back: "Admin",
+    eyebrow: "Agenda des partenariats",
+    titleStart: "Dates et horaires",
+    titleAccent: "disponibles",
+    description: "Configurez les horaires qui peuvent être choisis avant de conclure un partenariat. Tout horaire hors de cette liste est refusé par le serveur.",
+    released: "Publiés",
+    available: "Disponibles",
+    reserved: "Réservés",
+    formTitle: "Publier un nouvel horaire",
+    formDescription: "Cet horaire apparaît dans l'inscription uniquement s'il est actif et non réservé.",
+    date: "Date",
+    time: "Heure",
+    duration: "Durée",
+    minutes: (count) => `${count} minutes`,
+    oneHour: "1 heure",
+    oneHourThirty: "1h30",
+    internalNote: "Note interne",
+    optional: "Optionnel",
+    saving: "Enregistrement...",
+    createSlot: "Publier l'horaire",
+    nextSlotsEyebrow: "Prochains horaires",
+    configuredSchedule: "Agenda configuré",
+    reservedStatus: "Réservé",
+    availableStatus: "Disponible",
+    inactiveStatus: "Inactif",
+    fromTo: (start, end) => `${start} à ${end}`,
+    activate: "Activer",
+    deactivate: "Désactiver",
+    delete: "Supprimer",
+    noFutureSlots: "Aucun horaire futur enregistré.",
+    requestsEyebrow: "Demandes",
+    scheduledMeetings: "Réunions planifiées",
+    adminShortcutTitle: "Agenda des partenariats",
+    adminShortcutSubtitle: (count) => `${count} horaires disponibles`,
+    cancelMeeting: "Marquer comme annulée",
+    noMeetings: "Aucune réunion planifiée pour le moment.",
+    deleteSlotTitle: "Supprimer l'horaire",
+    deleteSlotDescription: "Cette action retire l'horaire de l'agenda et il ne pourra plus être choisi lors de l'inscription.",
+    deactivateSlotTitle: "Désactiver l'horaire",
+    deactivateSlotDescription: "Cet horaire n'apparaîtra plus lors de l'inscription, mais restera enregistré dans le panneau.",
+    activateSlotTitle: "Activer l'horaire",
+    activateSlotDescription: "Cet horaire réapparaîtra lors de l'inscription s'il est encore libre.",
+    cancelMeetingTitle: "Annuler la réunion",
+    cancelMeetingDescription: "Cette action marque la réunion comme annulée dans le panneau d'administration.",
+    confirmDeactivate: "Confirmer la désactivation",
+    confirmActivate: "Confirmer l'activation",
+    confirmCancelMeeting: "Confirmer l'annulation",
+  },
+}
+
 export function statusLabel(status: string, common: CommonCopy) {
   if (status === "PENDING") return common.pendingApproval
   if (status === "APPROVED") return common.approved

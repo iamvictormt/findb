@@ -1,12 +1,14 @@
 "use client"
 
 import Link from "next/link"
-import { useActionState, useState } from "react"
-import { ArrowRight, BadgeEuro, CheckCircle2 } from "lucide-react"
+import { useActionState, useEffect, useMemo, useState } from "react"
+import { ArrowRight, BadgeEuro, CalendarCheck2, CheckCircle2, Clock3 } from "lucide-react"
 import { registerInfluencer, type InfluencerSignupState } from "@/app/influenciadores/actions"
 import { getLocalizedAcceptedCountries } from "@/lib/influencer-program"
 import { CheckboxCard, CheckboxGrid, Field, FormPanel, Input, NumericInput, Select, SocialHandleInput, Textarea } from "@/components/ui/form-controls"
 import { type Lang, translateFeedback, useI18n } from "@/lib/i18n"
+import { formatDateLong, formatTime } from "@/lib/scheduling"
+import { cn } from "@/lib/utils"
 
 const initialState: InfluencerSignupState = {
   ok: false,
@@ -62,6 +64,9 @@ const signupCopy: Record<
     languageLabels: Record<string, string>
     motivation: string
     motivationPlaceholder: string
+    scheduleTitle: string
+    scheduleDescription: string
+    noSchedule: string
     openDashboard: string
     sending: string
     submit: string
@@ -110,9 +115,12 @@ const signupCopy: Record<
     },
     motivation: "Como você quer ajudar a comunidade?",
     motivationPlaceholder: "Conte sobre seu público, grupos, cidade ou ideias de divulgação.",
+    scheduleTitle: "Agende sua conversa",
+    scheduleDescription: "Depois das informações e categorias, escolha um horário liberado pela equipe.",
+    noSchedule: "Nenhum horário disponível agora. Volte em breve para concluir o cadastro com agendamento.",
     openDashboard: "Abrir meu painel",
     sending: "Enviando cadastro...",
-    submit: "Quero participar",
+    submit: "Quero participar e agendar",
   },
   ptPt: {
     title: "Quero ganhar em euros",
@@ -157,9 +165,12 @@ const signupCopy: Record<
     },
     motivation: "Como quer ajudar a comunidade?",
     motivationPlaceholder: "Conte sobre o seu público, grupos, cidade ou ideias de divulgação.",
+    scheduleTitle: "Agende a sua conversa",
+    scheduleDescription: "Depois das informações e categorias, escolha um horário liberado pela equipa.",
+    noSchedule: "Nenhum horário disponível agora. Volte em breve para concluir o registo com agendamento.",
     openDashboard: "Abrir o meu painel",
     sending: "A enviar registo...",
-    submit: "Quero participar",
+    submit: "Quero participar e agendar",
   },
   en: {
     title: "I want to earn in euros",
@@ -204,9 +215,12 @@ const signupCopy: Record<
     },
     motivation: "How do you want to help the community?",
     motivationPlaceholder: "Tell us about your audience, groups, city, or promotion ideas.",
+    scheduleTitle: "Schedule your conversation",
+    scheduleDescription: "After your details and categories, choose a time released by the team.",
+    noSchedule: "No times are available right now. Come back soon to finish signup with a meeting.",
     openDashboard: "Open my dashboard",
     sending: "Sending signup...",
-    submit: "I want to join",
+    submit: "Join and schedule",
   },
   es: {
     title: "Quiero ganar en euros",
@@ -251,9 +265,12 @@ const signupCopy: Record<
     },
     motivation: "¿Cómo quieres ayudar a la comunidad?",
     motivationPlaceholder: "Cuéntanos sobre tu público, grupos, ciudad o ideas de divulgación.",
+    scheduleTitle: "Agenda tu conversación",
+    scheduleDescription: "Después de tus datos y categorías, elige un horario liberado por el equipo.",
+    noSchedule: "No hay horarios disponibles ahora. Vuelve pronto para terminar el registro con agendamiento.",
     openDashboard: "Abrir mi panel",
     sending: "Enviando registro...",
-    submit: "Quiero participar",
+    submit: "Quiero participar y agendar",
   },
   fr: {
     title: "Je veux gagner en euros",
@@ -298,23 +315,45 @@ const signupCopy: Record<
     },
     motivation: "Comment voulez-vous aider la communauté ?",
     motivationPlaceholder: "Parlez de votre audience, vos groupes, votre ville ou vos idées de promotion.",
+    scheduleTitle: "Planifiez votre conversation",
+    scheduleDescription: "Après vos informations et catégories, choisissez un horaire publié par l'équipe.",
+    noSchedule: "Aucun horaire disponible pour le moment. Revenez bientôt pour terminer l'inscription avec rendez-vous.",
     openDashboard: "Ouvrir mon tableau",
     sending: "Envoi de l'inscription...",
-    submit: "Je veux participer",
+    submit: "Participer et planifier",
   },
 }
 
-export function InfluencerSignupForm() {
+type MeetingSlot = {
+  id: string
+  startsAt: string
+  endsAt: string
+}
+
+export function InfluencerSignupForm({ meetingSlots }: { meetingSlots: MeetingSlot[] }) {
   const [state, formAction, pending] = useActionState(registerInfluencer, initialState)
-  const [selectedCountry, setSelectedCountry] = useState("")
-  const [showOtherProfession, setShowOtherProfession] = useState(false)
+  const values = state.values
+  const [selectedCountry, setSelectedCountry] = useState(values?.country ?? "")
+  const [showOtherProfession, setShowOtherProfession] = useState(values?.categories.includes(otherProfessionCategory) ?? false)
+  const [selectedSlotId, setSelectedSlotId] = useState(values?.slotId || meetingSlots[0]?.id || "")
   const { lang, t } = useI18n()
   const copy = signupCopy[lang]
   const countryOptions = getCountryOptions(lang, copy.otherEuropeanCountry)
+  const formResetKey = state.submittedAt ?? "initial"
+
+  useEffect(() => {
+    if (!values) {
+      return
+    }
+
+    setSelectedCountry(values.country)
+    setShowOtherProfession(values.categories.includes(otherProfessionCategory))
+    setSelectedSlotId(values.slotId || meetingSlots[0]?.id || "")
+  }, [meetingSlots, values])
 
   return (
     <form action={formAction}>
-      <FormPanel className="grid gap-3">
+      <FormPanel key={formResetKey} className="grid gap-3">
       <div className="flex items-center gap-3">
         <span className="grid size-11 place-items-center rounded-full bg-gradient-brand text-white">
           <BadgeEuro className="size-5" aria-hidden="true" />
@@ -329,15 +368,16 @@ export function InfluencerSignupForm() {
 
       <div className="grid gap-2 sm:grid-cols-2">
         <Field label={copy.name}>
-          <Input name="name" required />
+          <Input name="name" defaultValue={values?.name} required />
         </Field>
         <Field label={copy.email}>
-          <Input name="email" type="email" required />
+          <Input name="email" type="email" defaultValue={values?.email} required />
         </Field>
         <Field label={copy.country}>
           <Select
             name="country"
             required
+            defaultValue={values?.country ?? ""}
             placeholder={copy.select}
             onValueChange={setSelectedCountry}
             options={countryOptions}
@@ -345,23 +385,23 @@ export function InfluencerSignupForm() {
         </Field>
         {selectedCountry === "Outro país europeu" && (
           <Field label={copy.otherCountry} className="sm:col-span-2">
-            <Input name="otherCountry" placeholder={copy.otherCountryPlaceholder} required />
+            <Input name="otherCountry" defaultValue={values?.otherCountry} placeholder={copy.otherCountryPlaceholder} required />
           </Field>
         )}
         <Field label={copy.whatsapp} helper={copy.whatsappHelper}>
-          <NumericInput name="whatsapp" maxLength={15} placeholder={copy.whatsappPlaceholder} required />
+          <NumericInput name="whatsapp" maxLength={15} defaultValue={values?.whatsapp} placeholder={copy.whatsappPlaceholder} required />
         </Field>
         <Field label={copy.city}>
-          <Input name="city" />
+          <Input name="city" defaultValue={values?.city} />
         </Field>
         <Field label={copy.network}>
-          <Input name="primaryNetwork" placeholder={copy.networkPlaceholder} required />
+          <Input name="primaryNetwork" defaultValue={values?.primaryNetwork} placeholder={copy.networkPlaceholder} required />
         </Field>
         <Field label={copy.handle}>
-          <SocialHandleInput name="socialHandle" required />
+          <SocialHandleInput name="socialHandle" defaultValue={values?.socialHandle} required />
         </Field>
         <Field label={copy.followers}>
-          <NumericInput name="audienceSize" maxLength={9} placeholder={copy.followersPlaceholder} />
+          <NumericInput name="audienceSize" maxLength={9} defaultValue={values?.audienceSize} placeholder={copy.followersPlaceholder} />
         </Field>
       </div>
 
@@ -372,6 +412,7 @@ export function InfluencerSignupForm() {
           value: category.value,
           label: copy.categoryLabels[category.labelKey],
         }))}
+        selectedValues={values?.categories}
         onOptionChange={(option, checked) => {
           if (option === otherProfessionCategory) {
             setShowOtherProfession(checked)
@@ -380,9 +421,19 @@ export function InfluencerSignupForm() {
       />
       {showOtherProfession && (
         <Field label={copy.otherProfession}>
-          <Input name="otherProfession" placeholder={copy.otherProfessionPlaceholder} required />
+          <Input name="otherProfession" defaultValue={values?.otherProfession} placeholder={copy.otherProfessionPlaceholder} required />
         </Field>
       )}
+
+      <MeetingSlotPicker
+        title={copy.scheduleTitle}
+        description={copy.scheduleDescription}
+        emptyMessage={copy.noSchedule}
+        slots={meetingSlots}
+        selectedSlotId={selectedSlotId}
+        onSelect={setSelectedSlotId}
+      />
+
       <CheckboxGroup
         title={copy.languages}
         name="languages"
@@ -390,12 +441,14 @@ export function InfluencerSignupForm() {
           value: language.value,
           label: copy.languageLabels[language.labelKey],
         }))}
+        selectedValues={values?.languages}
       />
 
       <Field label={copy.motivation}>
         <Textarea
           name="motivation"
           rows={4}
+          defaultValue={values?.motivation}
           placeholder={copy.motivationPlaceholder}
         />
       </Field>
@@ -413,7 +466,7 @@ export function InfluencerSignupForm() {
 
       <button
         type="submit"
-        disabled={pending}
+        disabled={pending || !selectedSlotId}
         className="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-extrabold text-white shadow-[0_16px_28px_-18px_rgba(33,33,156,0.85)] transition hover:bg-accent disabled:pointer-events-none disabled:opacity-60"
       >
         <CheckCircle2 className="size-4" aria-hidden="true" />
@@ -424,6 +477,133 @@ export function InfluencerSignupForm() {
   )
 }
 
+function MeetingSlotPicker({
+  title,
+  description,
+  emptyMessage,
+  slots,
+  selectedSlotId,
+  onSelect,
+}: {
+  title: string
+  description: string
+  emptyMessage: string
+  slots: MeetingSlot[]
+  selectedSlotId: string
+  onSelect: (slotId: string) => void
+}) {
+  const groups = useMemo(() => groupSlotsByDay(slots), [slots])
+  const selectedSlot = slots.find((slot) => slot.id === selectedSlotId)
+  const [selectedDay, setSelectedDay] = useState(() => groups[0]?.key ?? "")
+  const selectedGroup = groups.find((group) => group.key === selectedDay) ?? groups[0]
+
+  function chooseDay(dayKey: string) {
+    const day = groups.find((group) => group.key === dayKey)
+    setSelectedDay(dayKey)
+    onSelect(day?.slots[0]?.id ?? "")
+  }
+
+  return (
+    <fieldset className="grid gap-3 rounded-[1rem] bg-primary/5 p-3 ring-1 ring-primary/6">
+      <input type="hidden" name="slotId" value={selectedSlotId} readOnly />
+      <legend className="sr-only">{title}</legend>
+      <div className="flex items-start gap-3">
+        <span className="grid size-10 shrink-0 place-items-center rounded-full bg-white text-accent shadow-[0_8px_18px_-16px_rgba(33,33,156,0.6)]">
+          <CalendarCheck2 className="size-5" aria-hidden="true" />
+        </span>
+        <div className="min-w-0">
+          <h3 className="font-display text-base font-extrabold text-primary">{title}</h3>
+          <p className="mt-1 text-xs font-semibold leading-relaxed text-muted-foreground">
+            {description}
+          </p>
+        </div>
+      </div>
+
+      {groups.length ? (
+        <>
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+            {groups.map((group) => {
+              const date = new Date(group.date)
+              const active = group.key === selectedGroup?.key
+
+              return (
+                <button
+                  key={group.key}
+                  type="button"
+                  onClick={() => chooseDay(group.key)}
+                  className={cn(
+                    "grid min-h-[68px] content-center gap-1 rounded-lg bg-white px-3 py-2 text-left ring-1 ring-primary/8 transition hover:text-accent hover:ring-accent/20",
+                    active && "bg-primary text-white ring-primary hover:text-white",
+                  )}
+                >
+                  <span className={cn("text-[10px] font-extrabold uppercase tracking-[0.12em] text-muted-foreground", active && "text-white/75")}>
+                    {new Intl.DateTimeFormat("pt-BR", { weekday: "short" }).format(date)}
+                  </span>
+                  <span className="font-display text-base font-extrabold leading-none">
+                    {new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "short" }).format(date)}
+                  </span>
+                </button>
+              )
+            })}
+          </div>
+
+          <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
+            {selectedGroup?.slots.map((slot) => {
+              const active = slot.id === selectedSlotId
+
+              return (
+                <button
+                  key={slot.id}
+                  type="button"
+                  onClick={() => onSelect(slot.id)}
+                  className={cn(
+                    "inline-flex min-h-10 items-center justify-center gap-2 rounded-lg bg-white px-3 text-xs font-extrabold text-primary ring-1 ring-primary/8 transition hover:text-accent hover:ring-accent/20",
+                    active && "bg-accent text-white ring-accent hover:text-white",
+                  )}
+                >
+                  <Clock3 className="size-3.5" aria-hidden="true" />
+                  {formatTime(new Date(slot.startsAt))}
+                </button>
+              )
+            })}
+          </div>
+
+          {selectedSlot && (
+            <p className="rounded-lg bg-white px-3 py-2 text-[11px] font-bold leading-relaxed text-primary ring-1 ring-primary/8">
+              Selecionado: <span className="capitalize">{formatDateLong(new Date(selectedSlot.startsAt))}</span>, {formatTime(new Date(selectedSlot.startsAt))}.
+            </p>
+          )}
+        </>
+      ) : (
+        <p className="rounded-lg bg-white px-3 py-3 text-xs font-bold leading-relaxed text-muted-foreground ring-1 ring-primary/8">
+          {emptyMessage}
+        </p>
+      )}
+    </fieldset>
+  )
+}
+
+function groupSlotsByDay(slots: MeetingSlot[]) {
+  const groups = new Map<string, { key: string; date: string; slots: MeetingSlot[] }>()
+
+  for (const slot of slots) {
+    const date = new Date(slot.startsAt)
+    const key = [
+      date.getFullYear(),
+      String(date.getMonth() + 1).padStart(2, "0"),
+      String(date.getDate()).padStart(2, "0"),
+    ].join("-")
+
+    if (!groups.has(key)) {
+      groups.set(key, { key, date: date.toISOString(), slots: [] })
+    }
+
+    groups.get(key)?.slots.push(slot)
+  }
+
+  return Array.from(groups.values())
+}
+
 function getCountryOptions(lang: Lang, otherEuropeanCountry: string) {
   return getLocalizedAcceptedCountries(lang, otherEuropeanCountry)
 }
@@ -432,11 +612,13 @@ function CheckboxGroup({
   title,
   name,
   options,
+  selectedValues,
   onOptionChange,
 }: {
   title: string
   name: string
   options: Array<{ value: string; label: string }>
+  selectedValues?: string[]
   onOptionChange?: (option: string, checked: boolean) => void
 }) {
   return (
@@ -447,6 +629,7 @@ function CheckboxGroup({
           name={name}
           value={option.value}
           label={option.label}
+          defaultChecked={selectedValues?.includes(option.value)}
           onChange={(event) => onOptionChange?.(option.value, event.currentTarget.checked)}
         />
       ))}

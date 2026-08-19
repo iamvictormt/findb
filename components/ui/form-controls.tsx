@@ -1,6 +1,6 @@
 "use client"
 
-import { CalendarDays, Check, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react"
+import { CalendarDays, Check, ChevronDown, ChevronLeft, ChevronRight, Clock3 as ClockIcon } from "lucide-react"
 import * as React from "react"
 import { cn } from "@/lib/utils"
 
@@ -319,6 +319,268 @@ export function DateInput({
   )
 }
 
+export function TimeInput({
+  name,
+  defaultValue = "",
+  required,
+  disabled,
+  placeholder = "--:--",
+  className,
+}: {
+  name: string
+  defaultValue?: string
+  required?: boolean
+  disabled?: boolean
+  placeholder?: string
+  className?: string
+}) {
+  const id = React.useId()
+  const rootRef = React.useRef<HTMLSpanElement>(null)
+  const optionPointerRef = React.useRef<{ x: number; y: number; value: string } | null>(null)
+  const [open, setOpen] = React.useState(false)
+  const [value, setValue] = React.useState(() => normalizeTime(defaultValue))
+  const [dropdownStyle, setDropdownStyle] = React.useState<{
+    placement: "top" | "bottom"
+    maxHeight: number
+  }>({
+    placement: "bottom",
+    maxHeight: 256,
+  })
+  const hasInvalidValue = Boolean(value) && !isValidTime(value)
+  const validValue = isValidTime(value) ? value : ""
+  const hours = Array.from({ length: 24 }, (_, hour) => String(hour).padStart(2, "0"))
+  const minutes = ["00", "15", "30", "45"]
+  const [selectedHour = "", selectedMinute = ""] = value.split(":")
+
+  const updateDropdownPosition = React.useCallback(() => {
+    const root = rootRef.current
+
+    if (!root) {
+      return
+    }
+
+    const rect = root.getBoundingClientRect()
+    const viewportHeight = window.innerHeight
+    const gap = 6
+    const edgePadding = 12
+    const preferredHeight = 256
+    const minimumHeight = 170
+    const spaceBelow = viewportHeight - rect.bottom - edgePadding
+    const spaceAbove = rect.top - edgePadding
+    const placement = spaceBelow >= minimumHeight || spaceBelow >= spaceAbove ? "bottom" : "top"
+    const availableSpace = placement === "bottom" ? spaceBelow : spaceAbove
+
+    setDropdownStyle({
+      placement,
+      maxHeight: Math.max(minimumHeight, Math.min(preferredHeight, availableSpace - gap)),
+    })
+  }, [])
+
+  React.useEffect(() => {
+    function closeOnOutsideClick(event: MouseEvent) {
+      if (!rootRef.current?.contains(event.target as Node)) {
+        setOpen(false)
+      }
+    }
+
+    document.addEventListener("mousedown", closeOnOutsideClick)
+    return () => document.removeEventListener("mousedown", closeOnOutsideClick)
+  }, [])
+
+  React.useEffect(() => {
+    if (!open) {
+      return
+    }
+
+    updateDropdownPosition()
+    window.addEventListener("resize", updateDropdownPosition)
+    window.addEventListener("scroll", updateDropdownPosition, true)
+
+    return () => {
+      window.removeEventListener("resize", updateDropdownPosition)
+      window.removeEventListener("scroll", updateDropdownPosition, true)
+    }
+  }, [open, updateDropdownPosition])
+
+  function handleDisplayChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setValue(maskTime(event.target.value))
+  }
+
+  function chooseTime(nextHour: string, nextMinute: string) {
+    setValue(`${nextHour}:${nextMinute}`)
+    setOpen(false)
+  }
+
+  function choosePart(part: "hour" | "minute", nextValue: string) {
+    const nextHour = part === "hour" ? nextValue : selectedHour || "09"
+    const nextMinute = part === "minute" ? nextValue : selectedMinute || "00"
+
+    setValue(`${nextHour}:${nextMinute}`)
+
+    if (part === "minute") {
+      setOpen(false)
+    }
+  }
+
+  function startOptionPointer(event: React.PointerEvent<HTMLButtonElement>, nextValue: string) {
+    if (event.pointerType === "mouse") {
+      return
+    }
+
+    optionPointerRef.current = {
+      x: event.clientX,
+      y: event.clientY,
+      value: nextValue,
+    }
+  }
+
+  function finishOptionPointer(event: React.PointerEvent<HTMLButtonElement>, nextValue: string, onChoose: () => void) {
+    if (event.pointerType === "mouse") {
+      return
+    }
+
+    const start = optionPointerRef.current
+    optionPointerRef.current = null
+
+    if (!start || start.value !== nextValue) {
+      return
+    }
+
+    const moved = Math.hypot(event.clientX - start.x, event.clientY - start.y)
+
+    if (moved <= 8) {
+      event.preventDefault()
+      onChoose()
+    }
+  }
+
+  return (
+    <span ref={rootRef} className="relative block">
+      <input name={name} type="hidden" value={validValue} readOnly />
+      <input name={`${name}Invalid`} type="hidden" value={hasInvalidValue ? "1" : ""} readOnly />
+      <Input
+        type="text"
+        inputMode="numeric"
+        autoComplete="off"
+        required={required}
+        disabled={disabled}
+        pattern="\d{2}:\d{2}"
+        placeholder={placeholder}
+        value={value}
+        onFocus={() => {
+          updateDropdownPosition()
+          setOpen(true)
+        }}
+        onChange={handleDisplayChange}
+        className={cn("pr-10", className)}
+      />
+      <button
+        type="button"
+        disabled={disabled}
+        aria-label="Abrir seletor de hora"
+        onClick={() => {
+          updateDropdownPosition()
+          setOpen((current) => !current)
+        }}
+        className="absolute right-2.5 top-1/2 grid size-6 -translate-y-1/2 place-items-center rounded-full bg-accent/8 text-accent transition hover:bg-accent/14 disabled:pointer-events-none disabled:opacity-60"
+      >
+        <ClockIcon className="size-4" aria-hidden="true" />
+      </button>
+
+      {open && (
+        <span
+          id={id}
+          role="dialog"
+          style={{ maxHeight: dropdownStyle.maxHeight }}
+          className={cn(
+            "absolute left-0 z-50 block w-[18.5rem] max-w-[calc(100vw-2rem)] overflow-hidden rounded-2xl border border-white/85 bg-white/98 p-3 text-primary shadow-[0_24px_70px_-34px_rgba(33,33,156,0.95)] ring-1 ring-primary/8 backdrop-blur-xl",
+            dropdownStyle.placement === "bottom" ? "top-[calc(100%+0.45rem)]" : "bottom-[calc(100%+0.45rem)]",
+          )}
+        >
+          <span className="mb-3 flex items-center justify-between gap-2">
+            <span className="font-display text-sm font-extrabold text-primary">Escolha o horário</span>
+            <span className="rounded-full bg-accent/8 px-3 py-1 text-xs font-extrabold text-accent">
+              {validValue || "--:--"}
+            </span>
+          </span>
+
+          <span className="grid grid-cols-[1fr_0.7fr] gap-2">
+            <span>
+              <span className="mb-1 block text-[10px] font-extrabold uppercase tracking-[0.12em] text-muted-foreground">
+                Hora
+              </span>
+              <span className="grid max-h-44 grid-cols-3 gap-1 overflow-y-auto pr-1">
+                {hours.map((hour) => {
+                  const active = hour === selectedHour
+
+                  return (
+                    <button
+                      key={hour}
+                      type="button"
+                      onPointerDown={(event) => startOptionPointer(event, `hour-${hour}`)}
+                      onPointerUp={(event) => finishOptionPointer(event, `hour-${hour}`, () => choosePart("hour", hour))}
+                      onPointerCancel={() => {
+                        optionPointerRef.current = null
+                      }}
+                      onClick={() => choosePart("hour", hour)}
+                      className={cn(
+                        "grid h-9 place-items-center rounded-lg text-xs font-extrabold transition hover:bg-accent/10 hover:text-accent",
+                        active ? "bg-accent text-white shadow-[0_10px_22px_-16px_rgba(217,56,95,0.9)] hover:bg-accent hover:text-white" : "bg-primary/5 text-primary",
+                      )}
+                    >
+                      {hour}
+                    </button>
+                  )
+                })}
+              </span>
+            </span>
+
+            <span>
+              <span className="mb-1 block text-[10px] font-extrabold uppercase tracking-[0.12em] text-muted-foreground">
+                Min
+              </span>
+              <span className="grid gap-1">
+                {minutes.map((minute) => {
+                  const active = minute === selectedMinute
+
+                  return (
+                    <button
+                      key={minute}
+                      type="button"
+                      onPointerDown={(event) => startOptionPointer(event, `minute-${minute}`)}
+                      onPointerUp={(event) => finishOptionPointer(event, `minute-${minute}`, () => choosePart("minute", minute))}
+                      onPointerCancel={() => {
+                        optionPointerRef.current = null
+                      }}
+                      onClick={() => choosePart("minute", minute)}
+                      className={cn(
+                        "grid h-9 place-items-center rounded-lg text-xs font-extrabold transition hover:bg-accent/10 hover:text-accent",
+                        active ? "bg-accent text-white shadow-[0_10px_22px_-16px_rgba(217,56,95,0.9)] hover:bg-accent hover:text-white" : "bg-primary/5 text-primary",
+                      )}
+                    >
+                      {minute}
+                    </button>
+                  )
+                })}
+              </span>
+            </span>
+          </span>
+
+          {selectedHour && selectedMinute && (
+            <button
+              type="button"
+              onClick={() => chooseTime(selectedHour, selectedMinute)}
+              className="mt-3 inline-flex h-10 w-full items-center justify-center rounded-lg bg-primary px-4 text-xs font-extrabold text-white transition hover:bg-accent"
+            >
+              Confirmar horário
+            </button>
+          )}
+        </span>
+      )}
+    </span>
+  )
+}
+
 export function EuroMoneyInput({
   name,
   defaultValue,
@@ -421,6 +683,36 @@ function maskDisplayDate(value: string) {
   const year = digits.slice(4, 8)
 
   return [day, month, year].filter(Boolean).join("/")
+}
+
+function maskTime(value: string) {
+  const digits = value.replace(/\D/g, "").slice(0, 4)
+  const hour = digits.slice(0, 2)
+  const minute = digits.slice(2, 4)
+
+  return [hour, minute].filter(Boolean).join(":")
+}
+
+function normalizeTime(value: string) {
+  if (/^\d{2}:\d{2}$/.test(value)) {
+    return value
+  }
+
+  return maskTime(value)
+}
+
+function isValidTime(value: string) {
+  const match = /^(\d{2}):(\d{2})$/.exec(value)
+
+  if (!match) {
+    return false
+  }
+
+  const [, hour, minute] = match
+  const hourNumber = Number(hour)
+  const minuteNumber = Number(minute)
+
+  return hourNumber >= 0 && hourNumber <= 23 && minuteNumber >= 0 && minuteNumber <= 59
 }
 
 function formatDisplayDate(value: string) {

@@ -144,3 +144,38 @@ model InfluencerInvite {
 
   influencer InfluencerProfile @relation("Inviter", fields: [influencerId], references: [id], onDelete: Cascade)
 }
+
+model MeetingSlot {
+  id        String   @id @default(cuid())
+  startsAt  DateTime
+  endsAt    DateTime
+  isActive  Boolean  @default(true)
+  note      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  booking PartnershipMeeting?
+
+  @@unique([startsAt, endsAt])
+  @@index([startsAt])
+  @@index([isActive, startsAt])
+}
+
+model PartnershipMeeting {
+  id        String   @id @default(cuid())
+  slotId    String   @unique
+  name      String
+  email     String
+  whatsapp  String
+  country   String
+  company   String?
+  message   String?
+  status    String   @default("CONFIRMED")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  slot MeetingSlot @relation(fields: [slotId], references: [id], onDelete: Cascade)
+
+  @@index([email, createdAt])
+  @@index([status, createdAt])
+}

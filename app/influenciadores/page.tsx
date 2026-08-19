@@ -5,6 +5,7 @@ import { BrandLogo } from "@/components/findb/brand-logo"
 import { InfluencerSignupForm } from "@/components/findb/influencer-signup-form"
 import { LanguageSwitcher } from "@/components/findb/language-switcher"
 import { formatEuro, getLocalizedAcceptedCountries, getProgramOverview } from "@/lib/influencer-program"
+import { prisma } from "@/lib/prisma"
 import { getServerCopy, getServerLang, localizeContentAsset, publicInfluencerCopy } from "@/lib/server-copy"
 
 export const dynamic = "force-dynamic"
@@ -12,7 +13,18 @@ export const dynamic = "force-dynamic"
 export default async function InfluencerPage() {
   const [c, lang] = await Promise.all([getServerCopy(), getServerLang()])
   const pageCopy = publicInfluencerCopy[lang]
-  const { campaigns, assets } = await getProgramOverview()
+  const [{ campaigns, assets }, meetingSlots] = await Promise.all([
+    getProgramOverview(),
+    prisma.meetingSlot.findMany({
+      where: {
+        isActive: true,
+        startsAt: { gt: new Date() },
+        booking: null,
+      },
+      orderBy: { startsAt: "asc" },
+      take: 60,
+    }),
+  ])
   const quickActions = getQuickActions(assets, pageCopy)
   const acceptedCountryNames = getLocalizedAcceptedCountries(lang)
     .map((country) => country.label)
@@ -72,7 +84,13 @@ export default async function InfluencerPage() {
         </section>
 
         <section id="cadastro" className="scroll-mt-6">
-          <InfluencerSignupForm />
+          <InfluencerSignupForm
+            meetingSlots={meetingSlots.map((slot) => ({
+              id: slot.id,
+              startsAt: slot.startsAt.toISOString(),
+              endsAt: slot.endsAt.toISOString(),
+            }))}
+          />
         </section>
 
         <section className="grid gap-3">
