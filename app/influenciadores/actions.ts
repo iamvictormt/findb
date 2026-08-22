@@ -111,7 +111,7 @@ export async function registerInfluencer(
     submittedAt: Date.now(),
   })
 
-  if (!name || !email || !whatsapp || !country || !primaryNetwork || !socialHandle || !slotId) {
+  if (!name || !email || !whatsapp || !country || !primaryNetwork || !socialHandle) {
     return fail(initialError.message)
   }
 
@@ -141,14 +141,14 @@ export async function registerInfluencer(
     return fail("influencerEmailExists")
   }
 
-  const slot = await prisma.meetingSlot.findUnique({
-    where: { id: slotId },
-    include: { booking: true },
-  })
-
-  if (!slot || !slot.isActive || slot.startsAt <= new Date() || slot.booking) {
-    return fail("meetingSlotUnavailable")
-  }
+  const slot = slotId
+    ? await prisma.meetingSlot.findUnique({
+        where: { id: slotId },
+        include: { booking: true },
+      })
+    : null
+  const canBookSlot = Boolean(slot && slot.isActive && slot.startsAt > new Date() && !slot.booking)
+  const status = canBookSlot ? "PENDING" : "WAITLIST"
 
   let profile: Awaited<ReturnType<typeof prisma.influencerProfile.create>>
 
@@ -167,21 +167,24 @@ export async function registerInfluencer(
           categories: categories || "Comunidade imigrante",
           languages: languages || "Português",
           motivation,
+          status,
           referralSlug: makeSlug(name),
           referralCode: makeReferralCode(),
         },
       })
 
-      await tx.partnershipMeeting.create({
-        data: {
-          slotId,
-          name,
-          email,
-          whatsapp,
-          country,
-          message: motivation || "Cadastro de influenciador",
-        },
-      })
+      if (canBookSlot && slotId) {
+        await tx.partnershipMeeting.create({
+          data: {
+            slotId,
+            name,
+            email,
+            whatsapp,
+            country,
+            message: motivation || "Cadastro de influenciador",
+          },
+        })
+      }
 
       return createdProfile
     })
@@ -195,7 +198,7 @@ export async function registerInfluencer(
       }
     }
 
-    return fail("meetingSlotUnavailable")
+    return fail(canBookSlot ? "meetingSlotUnavailable" : initialError.message)
   }
 
   await setSession({
@@ -205,11 +208,13 @@ export async function registerInfluencer(
   })
 
   revalidatePath("/influenciadores")
+  revalidatePath("/admin")
   revalidatePath("/admin/agendamentos")
+  revalidatePath("/admin/influenciadores")
 
   return {
     ok: true,
-    message: "influencerSignupSuccess",
+    message: canBookSlot ? "influencerSignupSuccess" : "influencerWaitlistSuccess",
     referralUrl: makeReferralUrlFromHeaders(profile.referralSlug, requestHeaders),
   }
 }

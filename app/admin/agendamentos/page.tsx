@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { ArrowLeft, CalendarCheck2, Clock3, Mail, MessageCircle, Power, Trash2, UserRound, XCircle } from "lucide-react"
+import { ArrowLeft, CalendarCheck2, Clock3, Globe2, Mail, MessageCircle, Power, Trash2, UserRound, XCircle } from "lucide-react"
 import { cancelPartnershipMeeting, createMeetingSlot, deleteMeetingSlot, toggleMeetingSlot } from "@/app/admin/agendamentos/actions"
 import { BrandLogo } from "@/components/findb/brand-logo"
 import { ConfirmActionDialog } from "@/components/findb/confirm-action-dialog"
@@ -7,8 +7,9 @@ import { HeroWorldMap } from "@/components/findb/hero-world-map"
 import { MeetingSlotForm } from "@/components/findb/meeting-slot-form"
 import { ToastMessage } from "@/components/findb/toast-message"
 import { requireAdminSession } from "@/lib/auth"
+import { getMeetingSlotCountryOptions } from "@/lib/meeting-countries"
 import { prisma } from "@/lib/prisma"
-import { formatDateLong, formatMeetingRange, formatTime } from "@/lib/scheduling"
+import { formatLisbonDateLong, formatLisbonMeetingRange, formatLisbonTime } from "@/lib/scheduling"
 import { adminSchedulingCopy, getServerCopy, getServerLang, type ServerLang } from "@/lib/server-copy"
 import { getToastFromSearchParams } from "@/lib/toast"
 
@@ -27,6 +28,7 @@ export default async function AdminSchedulingPage({ searchParams }: PageProps) {
   ])
   const copy = adminSchedulingCopy[lang]
   const locale = getLocale(lang)
+  const countryOptions = getMeetingSlotCountryOptions(lang, copy.allCountries)
   const now = new Date()
   const [slots, meetings] = await Promise.all([
     prisma.meetingSlot.findMany({
@@ -84,6 +86,8 @@ export default async function AdminSchedulingPage({ searchParams }: PageProps) {
             formDescription: copy.formDescription,
             date: copy.date,
             time: copy.time,
+            country: copy.country,
+            countryOptions,
             duration: copy.duration,
             durationOptions: [
               { value: "15", label: copy.minutes(15) },
@@ -120,10 +124,14 @@ export default async function AdminSchedulingPage({ searchParams }: PageProps) {
                       <StatusPill label={slot.booking ? copy.reservedStatus : slot.isActive ? copy.availableStatus : copy.inactiveStatus} />
                     </div>
                     <h3 className="mt-3 font-display text-lg font-extrabold leading-tight text-primary capitalize">
-                      {formatDateLong(slot.startsAt, locale)}
+                      {formatLisbonDateLong(slot.startsAt, locale)}
                     </h3>
                     <p className="mt-1 text-xs font-semibold leading-relaxed text-muted-foreground">
-                      {copy.fromTo(formatTime(slot.startsAt, locale), formatTime(slot.endsAt, locale))}
+                      {copy.fromTo(formatLisbonTime(slot.startsAt, locale), formatLisbonTime(slot.endsAt, locale))}
+                    </p>
+                    <p className="mt-2 inline-flex w-fit items-center gap-1.5 rounded-full bg-primary/5 px-3 py-1.5 text-[11px] font-extrabold text-primary/75 ring-1 ring-primary/6">
+                      <Globe2 className="size-3.5 text-accent" aria-hidden="true" />
+                      {slot.country}
                     </p>
                     {slot.note && (
                       <p className="mt-2 rounded-lg bg-primary/5 px-3 py-2 text-[11px] font-bold leading-relaxed text-primary/75">
@@ -141,7 +149,7 @@ export default async function AdminSchedulingPage({ searchParams }: PageProps) {
                       trigger={slot.isActive ? copy.deactivate : copy.activate}
                       icon={<Power className="size-4" aria-hidden="true" />}
                       title={slot.isActive ? copy.deactivateSlotTitle : copy.activateSlotTitle}
-                      subject={formatMeetingRange(slot.startsAt, slot.endsAt, locale)}
+                      subject={formatLisbonMeetingRange(slot.startsAt, slot.endsAt, locale)}
                       description={slot.isActive ? copy.deactivateSlotDescription : copy.activateSlotDescription}
                       closeLabel={c.common.close}
                       cancelLabel={c.common.cancel}
@@ -153,7 +161,7 @@ export default async function AdminSchedulingPage({ searchParams }: PageProps) {
                       trigger={copy.delete}
                       icon={<Trash2 className="size-4" aria-hidden="true" />}
                       title={copy.deleteSlotTitle}
-                      subject={formatMeetingRange(slot.startsAt, slot.endsAt, locale)}
+                      subject={formatLisbonMeetingRange(slot.startsAt, slot.endsAt, locale)}
                       description={copy.deleteSlotDescription}
                       closeLabel={c.common.close}
                       cancelLabel={c.common.cancel}
@@ -195,7 +203,7 @@ export default async function AdminSchedulingPage({ searchParams }: PageProps) {
                       {meeting.name}
                     </h3>
                     <p className="mt-1 text-xs font-semibold leading-relaxed text-muted-foreground">
-                      {formatMeetingRange(meeting.slot.startsAt, meeting.slot.endsAt, locale)}
+                      {formatLisbonMeetingRange(meeting.slot.startsAt, meeting.slot.endsAt, locale)}
                     </p>
                     <div className="mt-3 grid gap-2 text-xs font-bold leading-relaxed text-primary/80">
                       <span className="inline-flex min-w-0 items-center gap-2 break-words">

@@ -9,6 +9,7 @@ type CommonCopy = Record<
   | "backToBio"
   | "status"
   | "pendingApproval"
+  | "waitlist"
   | "approved"
   | "rejected"
   | "suspended"
@@ -39,6 +40,7 @@ const copy = {
       backToBio: "Voltar para bio",
       status: "Status",
       pendingApproval: "Aguardando aprovação",
+      waitlist: "Lista de espera",
       approved: "Aprovado",
       rejected: "Reprovado",
       suspended: "Suspenso",
@@ -256,6 +258,7 @@ const copy = {
       backToBio: "Voltar à bio",
       status: "Estado",
       pendingApproval: "A aguardar aprovação",
+      waitlist: "Lista de espera",
       approved: "Aprovado",
       rejected: "Reprovado",
       suspended: "Suspenso",
@@ -473,6 +476,7 @@ const copy = {
       backToBio: "Back to bio",
       status: "Status",
       pendingApproval: "Pending approval",
+      waitlist: "Waitlist",
       approved: "Approved",
       rejected: "Rejected",
       suspended: "Suspended",
@@ -690,6 +694,7 @@ const copy = {
       backToBio: "Volver a la bio",
       status: "Estado",
       pendingApproval: "Pendiente de aprobación",
+      waitlist: "Lista de espera",
       approved: "Aprobado",
       rejected: "Rechazado",
       suspended: "Suspendido",
@@ -907,6 +912,7 @@ const copy = {
       backToBio: "Retour à la bio",
       status: "Statut",
       pendingApproval: "En attente d’approbation",
+      waitlist: "Liste d'attente",
       approved: "Approuvé",
       rejected: "Refusé",
       suspended: "Suspendu",
@@ -1301,6 +1307,8 @@ export const adminSchedulingCopy: Record<
     formDescription: string
     date: string
     time: string
+    country: string
+    allCountries: string
     duration: string
     minutes: (count: number) => string
     oneHour: string
@@ -1351,6 +1359,8 @@ export const adminSchedulingCopy: Record<
     formDescription: "Esse horário aparecerá no cadastro somente se estiver ativo e sem reserva.",
     date: "Data",
     time: "Hora",
+    country: "País",
+    allCountries: "Todos os países",
     duration: "Duração",
     minutes: (count) => `${count} minutos`,
     oneHour: "1 hora",
@@ -1400,6 +1410,8 @@ export const adminSchedulingCopy: Record<
     formDescription: "Este horário aparecerá no registo apenas se estiver ativo e sem reserva.",
     date: "Data",
     time: "Hora",
+    country: "País",
+    allCountries: "Todos os países",
     duration: "Duração",
     minutes: (count) => `${count} minutos`,
     oneHour: "1 hora",
@@ -1449,6 +1461,8 @@ export const adminSchedulingCopy: Record<
     formDescription: "This time appears in signup only when it is active and unreserved.",
     date: "Date",
     time: "Time",
+    country: "Country",
+    allCountries: "All countries",
     duration: "Duration",
     minutes: (count) => `${count} minutes`,
     oneHour: "1 hour",
@@ -1498,6 +1512,8 @@ export const adminSchedulingCopy: Record<
     formDescription: "Este horario aparece en el registro solo si está activo y sin reserva.",
     date: "Fecha",
     time: "Hora",
+    country: "País",
+    allCountries: "Todos los países",
     duration: "Duración",
     minutes: (count) => `${count} minutos`,
     oneHour: "1 hora",
@@ -1547,6 +1563,8 @@ export const adminSchedulingCopy: Record<
     formDescription: "Cet horaire apparaît dans l'inscription uniquement s'il est actif et non réservé.",
     date: "Date",
     time: "Heure",
+    country: "Pays",
+    allCountries: "Tous les pays",
     duration: "Durée",
     minutes: (count) => `${count} minutes`,
     oneHour: "1 heure",
@@ -1586,6 +1604,7 @@ export const adminSchedulingCopy: Record<
 }
 
 export function statusLabel(status: string, common: CommonCopy) {
+  if (status === "WAITLIST") return common.waitlist
   if (status === "PENDING") return common.pendingApproval
   if (status === "APPROVED") return common.approved
   if (status === "REJECTED") return common.rejected

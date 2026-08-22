@@ -2,12 +2,11 @@
 
 import Link from "next/link"
 import { useActionState, useEffect, useMemo, useState } from "react"
-import { ArrowRight, BadgeEuro, CalendarCheck2, CheckCircle2, Clock3 } from "lucide-react"
+import { ArrowRight, BadgeEuro, CalendarCheck2, CheckCircle2, Clock3, Globe2 } from "lucide-react"
 import { registerInfluencer, type InfluencerSignupState } from "@/app/influenciadores/actions"
 import { getLocalizedAcceptedCountries } from "@/lib/influencer-program"
 import { CheckboxCard, CheckboxGrid, Field, FormPanel, Input, NumericInput, Select, SocialHandleInput, Textarea } from "@/components/ui/form-controls"
 import { type Lang, translateFeedback, useI18n } from "@/lib/i18n"
-import { formatDateLong, formatTime } from "@/lib/scheduling"
 import { cn } from "@/lib/utils"
 
 const initialState: InfluencerSignupState = {
@@ -67,6 +66,11 @@ const signupCopy: Record<
     scheduleTitle: string
     scheduleDescription: string
     noSchedule: string
+    lisbonTimezone: string
+    lisbonTimezoneDetails: string
+    waitlistSubmit: string
+    selectedSchedule: string
+    selectedScheduleTimezoneSuffix: string
     openDashboard: string
     sending: string
     submit: string
@@ -117,7 +121,12 @@ const signupCopy: Record<
     motivationPlaceholder: "Conte sobre seu público, grupos, cidade ou ideias de divulgação.",
     scheduleTitle: "Agende sua conversa",
     scheduleDescription: "Depois das informações e categorias, escolha um horário liberado pela equipe.",
-    noSchedule: "Nenhum horário disponível agora. Volte em breve para concluir o cadastro com agendamento.",
+    noSchedule: "Nenhum horário disponível agora. Envie seu cadastro para entrar na lista de espera e avisaremos quando abrir vaga.",
+    lisbonTimezone: "Lisboa",
+    lisbonTimezoneDetails: "Os horários são exibidos no fuso horário de Lisboa, incluindo ajuste de horário de verão quando aplicável.",
+    waitlistSubmit: "Entrar na lista de espera",
+    selectedSchedule: "Selecionado",
+    selectedScheduleTimezoneSuffix: "no fuso horário de Lisboa",
     openDashboard: "Abrir meu painel",
     sending: "Enviando cadastro...",
     submit: "Quero participar e agendar",
@@ -167,7 +176,12 @@ const signupCopy: Record<
     motivationPlaceholder: "Conte sobre o seu público, grupos, cidade ou ideias de divulgação.",
     scheduleTitle: "Agende a sua conversa",
     scheduleDescription: "Depois das informações e categorias, escolha um horário liberado pela equipa.",
-    noSchedule: "Nenhum horário disponível agora. Volte em breve para concluir o registo com agendamento.",
+    noSchedule: "Nenhum horário disponível agora. Envie o seu registo para entrar na lista de espera e avisaremos quando abrir vaga.",
+    lisbonTimezone: "Lisboa",
+    lisbonTimezoneDetails: "Os horários são apresentados no fuso horário de Lisboa, incluindo ajuste de hora de verão quando aplicável.",
+    waitlistSubmit: "Entrar na lista de espera",
+    selectedSchedule: "Selecionado",
+    selectedScheduleTimezoneSuffix: "no fuso horário de Lisboa",
     openDashboard: "Abrir o meu painel",
     sending: "A enviar registo...",
     submit: "Quero participar e agendar",
@@ -217,7 +231,12 @@ const signupCopy: Record<
     motivationPlaceholder: "Tell us about your audience, groups, city, or promotion ideas.",
     scheduleTitle: "Schedule your conversation",
     scheduleDescription: "After your details and categories, choose a time released by the team.",
-    noSchedule: "No times are available right now. Come back soon to finish signup with a meeting.",
+    noSchedule: "No times are available right now. Submit your signup to join the waitlist and we will let you know when a spot opens.",
+    lisbonTimezone: "Lisbon",
+    lisbonTimezoneDetails: "Times are shown in the Lisbon time zone, including daylight saving adjustments when applicable.",
+    waitlistSubmit: "Join the waitlist",
+    selectedSchedule: "Selected",
+    selectedScheduleTimezoneSuffix: "in the Lisbon time zone",
     openDashboard: "Open my dashboard",
     sending: "Sending signup...",
     submit: "Join and schedule",
@@ -267,7 +286,12 @@ const signupCopy: Record<
     motivationPlaceholder: "Cuéntanos sobre tu público, grupos, ciudad o ideas de divulgación.",
     scheduleTitle: "Agenda tu conversación",
     scheduleDescription: "Después de tus datos y categorías, elige un horario liberado por el equipo.",
-    noSchedule: "No hay horarios disponibles ahora. Vuelve pronto para terminar el registro con agendamiento.",
+    noSchedule: "No hay horarios disponibles ahora. Envía tu registro para entrar en la lista de espera y te avisaremos cuando haya cupo.",
+    lisbonTimezone: "Lisboa",
+    lisbonTimezoneDetails: "Los horarios se muestran en el huso horario de Lisboa, incluido el ajuste de horario de verano cuando corresponda.",
+    waitlistSubmit: "Entrar en lista de espera",
+    selectedSchedule: "Seleccionado",
+    selectedScheduleTimezoneSuffix: "en el huso horario de Lisboa",
     openDashboard: "Abrir mi panel",
     sending: "Enviando registro...",
     submit: "Quiero participar y agendar",
@@ -317,7 +341,12 @@ const signupCopy: Record<
     motivationPlaceholder: "Parlez de votre audience, vos groupes, votre ville ou vos idées de promotion.",
     scheduleTitle: "Planifiez votre conversation",
     scheduleDescription: "Après vos informations et catégories, choisissez un horaire publié par l'équipe.",
-    noSchedule: "Aucun horaire disponible pour le moment. Revenez bientôt pour terminer l'inscription avec rendez-vous.",
+    noSchedule: "Aucun horaire disponible pour le moment. Envoyez votre inscription pour rejoindre la liste d'attente et nous vous préviendrons dès qu'une place s'ouvre.",
+    lisbonTimezone: "Lisbonne",
+    lisbonTimezoneDetails: "Les horaires sont affichés dans le fuseau horaire de Lisbonne, avec l'ajustement d'heure d'été lorsque cela s'applique.",
+    waitlistSubmit: "Rejoindre la liste d'attente",
+    selectedSchedule: "Sélectionné",
+    selectedScheduleTimezoneSuffix: "dans le fuseau horaire de Lisbonne",
     openDashboard: "Ouvrir mon tableau",
     sending: "Envoi de l'inscription...",
     submit: "Participer et planifier",
@@ -340,6 +369,7 @@ export function InfluencerSignupForm({ meetingSlots }: { meetingSlots: MeetingSl
   const copy = signupCopy[lang]
   const countryOptions = getCountryOptions(lang, copy.otherEuropeanCountry)
   const formResetKey = state.submittedAt ?? "initial"
+  const hasMeetingSlots = meetingSlots.length > 0
 
   useEffect(() => {
     if (!values) {
@@ -429,6 +459,10 @@ export function InfluencerSignupForm({ meetingSlots }: { meetingSlots: MeetingSl
         title={copy.scheduleTitle}
         description={copy.scheduleDescription}
         emptyMessage={copy.noSchedule}
+        lisbonTimezone={copy.lisbonTimezone}
+        lisbonTimezoneDetails={copy.lisbonTimezoneDetails}
+        selectedLabel={copy.selectedSchedule}
+        selectedTimezoneSuffix={copy.selectedScheduleTimezoneSuffix}
         slots={meetingSlots}
         selectedSlotId={selectedSlotId}
         onSelect={setSelectedSlotId}
@@ -466,11 +500,11 @@ export function InfluencerSignupForm({ meetingSlots }: { meetingSlots: MeetingSl
 
       <button
         type="submit"
-        disabled={pending || !selectedSlotId}
+        disabled={pending || (hasMeetingSlots && !selectedSlotId)}
         className="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-extrabold text-white shadow-[0_16px_28px_-18px_rgba(33,33,156,0.85)] transition hover:bg-accent disabled:pointer-events-none disabled:opacity-60"
       >
         <CheckCircle2 className="size-4" aria-hidden="true" />
-        {pending ? copy.sending : copy.submit}
+        {pending ? copy.sending : hasMeetingSlots ? copy.submit : copy.waitlistSubmit}
       </button>
       </FormPanel>
     </form>
@@ -481,6 +515,10 @@ function MeetingSlotPicker({
   title,
   description,
   emptyMessage,
+  lisbonTimezone,
+  lisbonTimezoneDetails,
+  selectedLabel,
+  selectedTimezoneSuffix,
   slots,
   selectedSlotId,
   onSelect,
@@ -488,6 +526,10 @@ function MeetingSlotPicker({
   title: string
   description: string
   emptyMessage: string
+  lisbonTimezone: string
+  lisbonTimezoneDetails: string
+  selectedLabel: string
+  selectedTimezoneSuffix: string
   slots: MeetingSlot[]
   selectedSlotId: string
   onSelect: (slotId: string) => void
@@ -495,6 +537,7 @@ function MeetingSlotPicker({
   const groups = useMemo(() => groupSlotsByDay(slots), [slots])
   const selectedSlot = slots.find((slot) => slot.id === selectedSlotId)
   const [selectedDay, setSelectedDay] = useState(() => groups[0]?.key ?? "")
+  const [showTimezoneInfo, setShowTimezoneInfo] = useState(false)
   const selectedGroup = groups.find((group) => group.key === selectedDay) ?? groups[0]
 
   function chooseDay(dayKey: string) {
@@ -537,10 +580,10 @@ function MeetingSlotPicker({
                   )}
                 >
                   <span className={cn("text-[10px] font-extrabold uppercase tracking-[0.12em] text-muted-foreground", active && "text-white/75")}>
-                    {new Intl.DateTimeFormat("pt-BR", { weekday: "short" }).format(date)}
+                    {formatLisbonWeekday(date)}
                   </span>
                   <span className="font-display text-base font-extrabold leading-none">
-                    {new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "short" }).format(date)}
+                    {formatLisbonDayMonth(date)}
                   </span>
                 </button>
               )
@@ -562,15 +605,32 @@ function MeetingSlotPicker({
                   )}
                 >
                   <Clock3 className="size-3.5" aria-hidden="true" />
-                  {formatTime(new Date(slot.startsAt))}
+                  {formatLisbonTime(new Date(slot.startsAt))}
                 </button>
               )
             })}
+            <button
+              type="button"
+              onClick={() => setShowTimezoneInfo((current) => !current)}
+              className="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg bg-white px-3 text-xs font-extrabold text-primary ring-1 ring-primary/8 transition hover:text-accent hover:ring-accent/20 aria-pressed:bg-accent/10 aria-pressed:text-accent aria-pressed:ring-accent/20"
+              aria-label={lisbonTimezoneDetails}
+              aria-pressed={showTimezoneInfo}
+              title={lisbonTimezoneDetails}
+            >
+              <Globe2 className="size-3.5 text-accent" aria-hidden="true" />
+              {lisbonTimezone}
+            </button>
           </div>
+
+          {showTimezoneInfo && (
+            <p className="rounded-lg bg-white px-3 py-2 text-[11px] font-bold leading-relaxed text-primary ring-1 ring-primary/8" aria-live="polite">
+              {lisbonTimezoneDetails}
+            </p>
+          )}
 
           {selectedSlot && (
             <p className="rounded-lg bg-white px-3 py-2 text-[11px] font-bold leading-relaxed text-primary ring-1 ring-primary/8">
-              Selecionado: <span className="capitalize">{formatDateLong(new Date(selectedSlot.startsAt))}</span>, {formatTime(new Date(selectedSlot.startsAt))}.
+              {selectedLabel}: <span className="capitalize">{formatLisbonDateLong(new Date(selectedSlot.startsAt))}</span>, {formatLisbonTime(new Date(selectedSlot.startsAt))} {selectedTimezoneSuffix}.
             </p>
           )}
         </>
@@ -588,11 +648,7 @@ function groupSlotsByDay(slots: MeetingSlot[]) {
 
   for (const slot of slots) {
     const date = new Date(slot.startsAt)
-    const key = [
-      date.getFullYear(),
-      String(date.getMonth() + 1).padStart(2, "0"),
-      String(date.getDate()).padStart(2, "0"),
-    ].join("-")
+    const key = formatLisbonDateKey(date)
 
     if (!groups.has(key)) {
       groups.set(key, { key, date: date.toISOString(), slots: [] })
@@ -602,6 +658,51 @@ function groupSlotsByDay(slots: MeetingSlot[]) {
   }
 
   return Array.from(groups.values())
+}
+
+function formatLisbonDateKey(date: Date) {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Europe/Lisbon",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(date)
+  const values = Object.fromEntries(parts.map((part) => [part.type, part.value]))
+
+  return `${values.year}-${values.month}-${values.day}`
+}
+
+function formatLisbonWeekday(date: Date) {
+  return new Intl.DateTimeFormat("pt-BR", {
+    timeZone: "Europe/Lisbon",
+    weekday: "short",
+  }).format(date)
+}
+
+function formatLisbonDayMonth(date: Date) {
+  return new Intl.DateTimeFormat("pt-BR", {
+    timeZone: "Europe/Lisbon",
+    day: "2-digit",
+    month: "short",
+  }).format(date)
+}
+
+function formatLisbonDateLong(date: Date) {
+  return new Intl.DateTimeFormat("pt-BR", {
+    timeZone: "Europe/Lisbon",
+    weekday: "long",
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  }).format(date)
+}
+
+function formatLisbonTime(date: Date) {
+  return new Intl.DateTimeFormat("pt-BR", {
+    timeZone: "Europe/Lisbon",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(date)
 }
 
 function getCountryOptions(lang: Lang, otherEuropeanCountry: string) {

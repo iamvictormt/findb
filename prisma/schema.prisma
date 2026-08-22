@@ -149,6 +149,7 @@ model MeetingSlot {
   id        String   @id @default(cuid())
   startsAt  DateTime
   endsAt    DateTime
+  country   String   @default("Todos os países")
   isActive  Boolean  @default(true)
   note      String?
   createdAt DateTime @default(now())
@@ -156,8 +157,9 @@ model MeetingSlot {
 
   booking PartnershipMeeting?
 
-  @@unique([startsAt, endsAt])
+  @@unique([country, startsAt, endsAt])
   @@index([startsAt])
+  @@index([country, startsAt])
   @@index([isActive, startsAt])
 }
 

@@ -4,7 +4,7 @@ import { useActionState } from "react"
 import { CalendarPlus } from "lucide-react"
 import type { MeetingSlotFormState } from "@/app/admin/agendamentos/actions"
 import { ToastMessage } from "@/components/findb/toast-message"
-import { DateInput, Field, FormPanel, Select, Textarea, TimeInput } from "@/components/ui/form-controls"
+import { DateInput, Field, FormPanel, Select, type SelectOption, Textarea, TimeInput } from "@/components/ui/form-controls"
 import { translateFeedback, useI18n } from "@/lib/i18n"
 
 const initialState: MeetingSlotFormState = {
@@ -22,6 +22,8 @@ export function MeetingSlotForm({
     formDescription: string
     date: string
     time: string
+    country: string
+    countryOptions: SelectOption[]
     duration: string
     durationOptions: Array<{ value: string; label: string }>
     internalNote: string
@@ -62,6 +64,15 @@ export function MeetingSlotForm({
             />
           </Field>
         </div>
+
+        <Field label={labels.country}>
+          <Select
+            name="country"
+            defaultValue={labels.countryOptions[0]?.value ?? ""}
+            options={labels.countryOptions}
+            required
+          />
+        </Field>
 
         <Field label={labels.internalNote} helper={labels.optional}>
           <Textarea name="note" rows={3} />

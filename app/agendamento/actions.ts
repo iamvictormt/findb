@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 import { normalizePhone } from "@/lib/auth"
+import { canBookSlotFromCountry, isValidMeetingSlotCountry } from "@/lib/meeting-countries"
 import { prisma } from "@/lib/prisma"
 import { toastRedirect } from "@/lib/toast"
 
@@ -32,7 +33,7 @@ export async function createPartnershipMeeting(
   const company = asText(formData, "company")
   const message = asText(formData, "message")
 
-  if (!slotId || !name || !email || !whatsapp || !country || !isValidEmail(email)) {
+  if (!slotId || !name || !email || !whatsapp || !country || !isValidMeetingSlotCountry(country) || !isValidEmail(email)) {
     return { ok: false, message: "meetingInvalid" }
   }
 
@@ -47,7 +48,7 @@ export async function createPartnershipMeeting(
     include: { booking: true },
   })
 
-  if (!slot || !slot.isActive || slot.startsAt <= new Date() || slot.booking) {
+  if (!slot || !slot.isActive || slot.startsAt <= new Date() || slot.booking || !canBookSlotFromCountry(slot.country, country)) {
     return { ok: false, message: "meetingSlotUnavailable" }
   }
 

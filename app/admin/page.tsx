@@ -54,7 +54,7 @@ export default async function AdminPage() {
   ])
 
   const counts = new Map(statusGroups.map((group) => [group.status, group._count.status]))
-  const pending = counts.get("PENDING") ?? 0
+  const pending = (counts.get("PENDING") ?? 0) + (counts.get("WAITLIST") ?? 0)
   const approved = counts.get("APPROVED") ?? 0
   const rejected = counts.get("REJECTED") ?? 0
   const totalEarnings = formatEuro(earnings._sum.amountCents ?? 0)

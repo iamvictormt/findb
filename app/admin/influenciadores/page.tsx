@@ -54,7 +54,7 @@ export default async function AdminInfluencersPage({ searchParams }: PageProps) 
     orderBy: [{ status: "asc" }, { createdAt: "desc" }],
   })
 
-  const pending = profiles.filter((profile) => profile.status === "PENDING").length
+  const pending = profiles.filter((profile) => profile.status === "PENDING" || profile.status === "WAITLIST").length
   const approved = profiles.filter((profile) => profile.status === "APPROVED").length
   const rejected = profiles.filter((profile) => profile.status === "REJECTED").length
   const suspended = profiles.filter((profile) => profile.status === "SUSPENDED").length

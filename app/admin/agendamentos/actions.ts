@@ -3,8 +3,9 @@
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 import { requireAdminSession } from "@/lib/auth"
+import { allCountriesSlotValue, isValidMeetingSlotCountry } from "@/lib/meeting-countries"
 import { prisma } from "@/lib/prisma"
-import { parseLocalDateTime } from "@/lib/scheduling"
+import { parseLisbonDateTime } from "@/lib/scheduling"
 import { toastRedirect } from "@/lib/toast"
 
 export type MeetingSlotFormState = {
@@ -31,11 +32,12 @@ export async function createMeetingSlot(
 
   const date = asText(formData, "date")
   const time = asText(formData, "time")
+  const country = asText(formData, "country") || allCountriesSlotValue
   const duration = Number(asText(formData, "durationMinutes") || "30")
   const note = asText(formData, "note")
-  const startsAt = parseLocalDateTime(date, time)
+  const startsAt = parseLisbonDateTime(date, time)
 
-  if (!startsAt || !Number.isInteger(duration) || duration < 15 || duration > 180) {
+  if (!startsAt || !isValidMeetingSlotCountry(country) || !Number.isInteger(duration) || duration < 15 || duration > 180) {
     return { ok: false, message: "meetingSlotInvalid" }
   }
 
@@ -50,6 +52,7 @@ export async function createMeetingSlot(
       data: {
         startsAt,
         endsAt,
+        country,
         note: note || null,
       },
     })

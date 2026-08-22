@@ -58,21 +58,31 @@ const iconOptions = [
   { value: "BriefcaseBusiness", label: "Maleta" },
   { value: "CalendarDays", label: "Calendário" },
   { value: "CreditCard", label: "Cartão" },
+  { value: "FileText", label: "Documento" },
+  { value: "GraduationCap", label: "Educação" },
   { value: "Globe2", label: "Globo" },
+  { value: "Gamepad2", label: "Jogo" },
   { value: "Handshake", label: "Parceria" },
+  { value: "HeartHandshake", label: "Comunidade" },
+  { value: "Home", label: "Moradia" },
+  { value: "MapPinned", label: "Localização" },
+  { value: "Megaphone", label: "Divulgação" },
   { value: "MessageCircle", label: "Mensagem" },
   { value: "Network", label: "Networking" },
   { value: "Plane", label: "Viagem" },
+  { value: "ShoppingBag", label: "Compras" },
+  { value: "Trophy", label: "Troféu" },
+  { value: "Utensils", label: "Comida" },
   { value: "UsersRound", label: "Pessoas" },
-]
+].sort((first, second) => first.label.localeCompare(second.label, "pt-BR"))
 
 const toneOptions = [
   { value: "blue", label: "Azul" },
-  { value: "pink", label: "Rosa" },
-  { value: "cyan", label: "Violeta" },
-  { value: "green", label: "Verde" },
   { value: "gold", label: "Dourado" },
-]
+  { value: "pink", label: "Rosa" },
+  { value: "green", label: "Verde" },
+  { value: "cyan", label: "Violeta" },
+].sort((first, second) => first.label.localeCompare(second.label, "pt-BR"))
 
 export function HomeLinkForm({
   action,

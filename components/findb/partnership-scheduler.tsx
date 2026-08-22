@@ -1,11 +1,13 @@
 "use client"
 
-import { useActionState, useMemo, useState } from "react"
+import { useActionState, useEffect, useMemo, useState } from "react"
 import { ArrowRight, CalendarCheck2, CheckCircle2, Clock3, LockKeyhole, Mail, MessageCircle, UserRound } from "lucide-react"
 import type { BookingFormState } from "@/app/agendamento/actions"
 import { ToastMessage } from "@/components/findb/toast-message"
-import { Field, FormPanel, Input, Textarea } from "@/components/ui/form-controls"
-import { formatDateLong, formatTime } from "@/lib/scheduling"
+import { Field, FormPanel, Input, Select, Textarea } from "@/components/ui/form-controls"
+import { allCountriesSlotValue } from "@/lib/meeting-countries"
+import { getLocalizedAcceptedCountries } from "@/lib/influencer-program"
+import { formatLisbonDateLong, formatLisbonTime } from "@/lib/scheduling"
 import { translateFeedback, useI18n } from "@/lib/i18n"
 import { cn } from "@/lib/utils"
 
@@ -13,6 +15,7 @@ type Slot = {
   id: string
   startsAt: string
   endsAt: string
+  country: string
 }
 
 type DayGroup = {
@@ -34,13 +37,28 @@ export function PartnershipScheduler({
   action: (prevState: BookingFormState, formData: FormData) => Promise<BookingFormState>
 }) {
   const [state, formAction, pending] = useActionState(action, initialState)
-  const { t } = useI18n()
-  const groups = useMemo(() => groupSlotsByDay(slots), [slots])
+  const { lang, t } = useI18n()
+  const [selectedCountry, setSelectedCountry] = useState("")
+  const countryOptions = useMemo(() => getLocalizedAcceptedCountries(lang, "Outro país europeu"), [lang])
+  const filteredSlots = useMemo(() => {
+    if (!selectedCountry) {
+      return slots
+    }
+
+    return slots.filter((slot) => slot.country === allCountriesSlotValue || slot.country === selectedCountry)
+  }, [selectedCountry, slots])
+  const groups = useMemo(() => groupSlotsByDay(filteredSlots), [filteredSlots])
   const [selectedDay, setSelectedDay] = useState(groups[0]?.key ?? "")
   const selectedGroup = groups.find((group) => group.key === selectedDay) ?? groups[0]
-  const [selectedSlotId, setSelectedSlotId] = useState(selectedGroup?.slots[0]?.id ?? "")
-  const selectedSlot = slots.find((slot) => slot.id === selectedSlotId) ?? selectedGroup?.slots[0]
+  const [selectedSlotId, setSelectedSlotId] = useState("")
+  const selectedSlot = filteredSlots.find((slot) => slot.id === selectedSlotId) ?? selectedGroup?.slots[0]
   const errorMessage = translateFeedback(t, state.message)
+
+  useEffect(() => {
+    const nextGroup = groups[0]
+    setSelectedDay(nextGroup?.key ?? "")
+    setSelectedSlotId(nextGroup?.slots[0]?.id ?? "")
+  }, [groups])
 
   function chooseDay(dayKey: string) {
     const day = groups.find((group) => group.key === dayKey)
@@ -48,7 +66,7 @@ export function PartnershipScheduler({
     setSelectedSlotId(day?.slots[0]?.id ?? "")
   }
 
-  if (!groups.length) {
+  if (!slots.length) {
     return (
       <FormPanel className="grid gap-3 text-center">
         <span className="mx-auto grid size-12 place-items-center rounded-full bg-accent/10 text-accent">
@@ -72,39 +90,56 @@ export function PartnershipScheduler({
           <p className="font-display text-[10px] font-bold uppercase tracking-[0.24em] text-accent">
             Passo 1
           </p>
-          <h2 className="font-display text-xl font-extrabold text-primary">Escolha uma data liberada</h2>
+          <h2 className="font-display text-xl font-extrabold text-primary">Escolha seu país e uma data</h2>
         </div>
 
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-          {groups.map((group) => {
-            const date = new Date(group.date)
-            const active = group.key === selectedGroup?.key
+        <Field label="País de residência">
+          <Select
+            name="country"
+            required
+            placeholder="Selecione"
+            options={countryOptions}
+            onValueChange={setSelectedCountry}
+          />
+        </Field>
 
-            return (
-              <button
-                key={group.key}
-                type="button"
-                onClick={() => chooseDay(group.key)}
-                className={cn(
-                  "grid min-h-[74px] content-center gap-1 rounded-lg bg-primary/5 px-3 py-2 text-left ring-1 ring-primary/6 transition hover:bg-white hover:ring-accent/20",
-                  active && "bg-primary text-white shadow-[0_16px_32px_-22px_rgba(33,33,156,0.9)] ring-primary",
-                )}
-              >
-                <span className={cn("text-[10px] font-extrabold uppercase tracking-[0.12em] text-muted-foreground", active && "text-white/75")}>
-                  {new Intl.DateTimeFormat("pt-BR", { weekday: "short" }).format(date)}
-                </span>
-                <span className="font-display text-lg font-extrabold leading-none">
-                  {new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "short" }).format(date)}
-                </span>
-                <span className={cn("text-[11px] font-bold text-muted-foreground", active && "text-white/75")}>
-                  {group.slots.length} horario{group.slots.length === 1 ? "" : "s"}
-                </span>
-              </button>
-            )
-          })}
-        </div>
+        {groups.length ? (
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+            {groups.map((group) => {
+              const date = new Date(group.date)
+              const active = group.key === selectedGroup?.key
+
+              return (
+                <button
+                  key={group.key}
+                  type="button"
+                  onClick={() => chooseDay(group.key)}
+                  className={cn(
+                    "grid min-h-[74px] content-center gap-1 rounded-lg bg-primary/5 px-3 py-2 text-left ring-1 ring-primary/6 transition hover:bg-white hover:ring-accent/20",
+                    active && "bg-primary text-white shadow-[0_16px_32px_-22px_rgba(33,33,156,0.9)] ring-primary",
+                  )}
+                >
+                  <span className={cn("text-[10px] font-extrabold uppercase tracking-[0.12em] text-muted-foreground", active && "text-white/75")}>
+                    {formatLisbonWeekday(date)}
+                  </span>
+                  <span className="font-display text-lg font-extrabold leading-none">
+                    {formatLisbonDayMonth(date)}
+                  </span>
+                  <span className={cn("text-[11px] font-bold text-muted-foreground", active && "text-white/75")}>
+                    {group.slots.length} horario{group.slots.length === 1 ? "" : "s"}
+                  </span>
+                </button>
+              )
+            })}
+          </div>
+        ) : (
+          <div className="rounded-lg bg-primary/5 px-3 py-3 text-xs font-bold leading-relaxed text-muted-foreground ring-1 ring-primary/6">
+            Nenhum horário disponível para esse país no momento.
+          </div>
+        )}
       </FormPanel>
 
+      {groups.length > 0 && (
       <FormPanel className="grid gap-4">
         <div>
           <p className="font-display text-[10px] font-bold uppercase tracking-[0.24em] text-accent">
@@ -113,7 +148,7 @@ export function PartnershipScheduler({
           <h2 className="font-display text-xl font-extrabold text-primary">Escolha o horário</h2>
           {selectedGroup && (
             <p className="mt-1 text-xs font-semibold leading-relaxed text-muted-foreground capitalize">
-              {formatDateLong(new Date(selectedGroup.date))}
+              {formatLisbonDateLong(new Date(selectedGroup.date))}
             </p>
           )}
         </div>
@@ -133,12 +168,16 @@ export function PartnershipScheduler({
                 )}
               >
                 <Clock3 className="size-3.5" aria-hidden="true" />
-                {formatTime(new Date(slot.startsAt))}
+                <span>{formatLisbonTime(new Date(slot.startsAt))}</span>
+                {slot.country !== allCountriesSlotValue && (
+                  <span className="max-w-20 truncate text-[10px] opacity-75">{slot.country}</span>
+                )}
               </button>
             )
           })}
         </div>
       </FormPanel>
+      )}
 
       <FormPanel className="grid gap-3">
         <div>
@@ -173,14 +212,9 @@ export function PartnershipScheduler({
           </Field>
         </div>
 
-        <div className="grid gap-3 sm:grid-cols-2">
-          <Field label="País de residência">
-            <Input name="country" required placeholder="Portugal, Espanha, Irlanda..." />
-          </Field>
-          <Field label="Empresa ou projeto" helper="Opcional">
-            <Input name="company" />
-          </Field>
-        </div>
+        <Field label="Empresa ou projeto" helper="Opcional">
+          <Input name="company" />
+        </Field>
 
         <Field label="Conte-nos brevemente sobre a parceria" helper="Opcional">
           <Textarea name="message" rows={4} />
@@ -190,7 +224,8 @@ export function PartnershipScheduler({
           <div className="flex items-start gap-2 rounded-lg bg-primary/5 p-3 text-xs font-bold leading-relaxed text-primary ring-1 ring-primary/6">
             <LockKeyhole className="mt-0.5 size-4 shrink-0 text-accent" aria-hidden="true" />
             <span>
-              Horário selecionado: {formatDateLong(new Date(selectedSlot.startsAt))}, {formatTime(new Date(selectedSlot.startsAt))}.
+              Horário selecionado: {formatLisbonDateLong(new Date(selectedSlot.startsAt))}, {formatLisbonTime(new Date(selectedSlot.startsAt))}.
+              {selectedSlot.country !== allCountriesSlotValue ? ` País: ${selectedSlot.country}.` : ""}
               Apenas horários liberados pela equipe são aceitos.
             </span>
           </div>
@@ -229,11 +264,7 @@ function groupSlotsByDay(slots: Slot[]): DayGroup[] {
 
   for (const slot of slots) {
     const date = new Date(slot.startsAt)
-    const key = [
-      date.getFullYear(),
-      String(date.getMonth() + 1).padStart(2, "0"),
-      String(date.getDate()).padStart(2, "0"),
-    ].join("-")
+    const key = formatLisbonDateKey(date)
 
     if (!groups.has(key)) {
       groups.set(key, { key, date: date.toISOString(), slots: [] })
@@ -243,4 +274,31 @@ function groupSlotsByDay(slots: Slot[]): DayGroup[] {
   }
 
   return Array.from(groups.values())
+}
+
+function formatLisbonDateKey(date: Date) {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Europe/Lisbon",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(date)
+  const values = Object.fromEntries(parts.map((part) => [part.type, part.value]))
+
+  return `${values.year}-${values.month}-${values.day}`
+}
+
+function formatLisbonWeekday(date: Date) {
+  return new Intl.DateTimeFormat("pt-BR", {
+    timeZone: "Europe/Lisbon",
+    weekday: "short",
+  }).format(date)
+}
+
+function formatLisbonDayMonth(date: Date) {
+  return new Intl.DateTimeFormat("pt-BR", {
+    timeZone: "Europe/Lisbon",
+    day: "2-digit",
+    month: "short",
+  }).format(date)
 }

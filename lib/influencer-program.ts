@@ -1,4 +1,3 @@
-import { prisma } from "@/lib/prisma"
 import { getRequestOrigin } from "@/lib/request-url"
 
 export type CountryLang = "ptBr" | "ptPt" | "en" | "es" | "fr"
@@ -182,6 +181,7 @@ export function makeReferralUrlFromHeaders(slug: string, headers: Pick<Headers, 
 }
 
 export async function getProgramOverview() {
+  const { prisma } = await import("@/lib/prisma")
   const [campaigns, assets] = await Promise.all([
     prisma.campaign.findMany({
       where: { status: "ACTIVE" },

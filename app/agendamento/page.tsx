@@ -65,6 +65,7 @@ export default async function SchedulingPage({ searchParams }: PageProps) {
             id: slot.id,
             startsAt: slot.startsAt.toISOString(),
             endsAt: slot.endsAt.toISOString(),
+            country: slot.country,
           }))}
         />
       </div>

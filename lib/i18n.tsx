@@ -218,6 +218,11 @@ const feedback = {
     en: "Registration received. The team will review your approval, and you will be able to access the dashboard after approval.",
     es: "Registro recibido. El equipo evaluará tu aprobación y podrás acceder al panel después de ser aprobado.",
   },
+  influencerWaitlistSuccess: {
+    pt: "Cadastro recebido. Você entrou na lista de espera e avisaremos quando houver vaga para agendamento.",
+    en: "Registration received. You joined the waitlist, and we will let you know when a scheduling spot opens.",
+    es: "Registro recibido. Entraste en la lista de espera y te avisaremos cuando haya cupo para agendar.",
+  },
   influencerLoginRequired: {
     pt: "Informe email e WhatsApp para acessar sua área.",
     en: "Enter email and WhatsApp to access your area.",
@@ -635,6 +640,7 @@ const ptPtMessages: Messages = {
     influencerOtherProfessionRequired: "Informe a profissão quando selecionar outras profissões.",
     influencerLanguageRequired: "Selecione pelo menos um idioma.",
     influencerSignupSuccess: "Registo recebido. A equipa vai avaliar a aprovação e poderá aceder ao painel depois de ser aprovado.",
+    influencerWaitlistSuccess: "Registo recebido. Entrou na lista de espera e avisaremos quando houver vaga para agendamento.",
     influencerLoginRequired: "Informe email e WhatsApp para aceder à sua área.",
     influencerLoginEmailRequired: "Informe o email registado para receber o código.",
     influencerLoginNotFound: "Não encontrámos um registo com esses dados.",
@@ -757,6 +763,7 @@ const frMessages: Messages = {
     influencerOtherProfessionRequired: "Indiquez la profession lorsque vous sélectionnez autres professions.",
     influencerLanguageRequired: "Sélectionnez au moins une langue.",
     influencerSignupSuccess: "Inscription reçue. L'équipe va examiner votre approbation et vous pourrez accéder au tableau après approbation.",
+    influencerWaitlistSuccess: "Inscription reçue. Vous avez rejoint la liste d'attente et nous vous préviendrons dès qu'une place de rendez-vous s'ouvre.",
     influencerLoginRequired: "Indiquez l’email et le WhatsApp pour accéder à votre espace.",
     influencerLoginEmailRequired: "Indiquez l’email inscrit pour recevoir le code.",
     influencerLoginNotFound: "Nous n’avons trouvé aucune inscription avec ces données.",
