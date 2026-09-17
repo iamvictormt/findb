@@ -1,0 +1,1706 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <title>FindB Europa · Email design</title>
+    <style>
+      body {
+        margin: 0;
+      }
+      table {
+        border-collapse: collapse;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      img {
+        border: 0;
+      }
+
+      .outer { padding: 0 !important; }
+      .card { width: 100%; }
+      @media (max-width: 1000px) {
+        .main { padding: 32px 24px !important; }
+        .column { display: block !important; width: 100% !important; box-sizing: border-box; }
+        .brand { padding: 0 0 28px !important; border-right: 0 !important; border-bottom: 1px solid #eee0e5; }
+        .brand > img, .brand > table { max-width: 430px !important; margin-left: auto; margin-right: auto; }
+        .brand > p { text-align: center; }
+        .person { padding: 28px 0 0 !important; }
+        .name { font-size: 36px !important; }
+        .person > p { font-size: 18px !important; }
+        .lower { padding: 0 24px 24px !important; }
+        .footcol { display: block !important; width: 100% !important; padding: 18px 0 !important; border: 0 !important; box-sizing: border-box; }
+        .social > table { width: auto !important; border: 0 !important; margin: 0 auto; }
+        .movement { text-align: center; }
+        .movement > table { margin: 0 auto; }
+      }
+      @media (max-width: 480px) {
+        .main { padding: 24px 16px !important; }
+        .brand > p { font-size: 20px !important; }
+        .brand > table { table-layout: fixed; }
+        .brand > table td span { font-size: 11px !important; }
+        .brand > table td img { width: 34px !important; height: 34px !important; }
+        .brand > table:first-of-type td:nth-child(2) { width: 64%; font-size: 21px !important; letter-spacing: 8px !important; }
+        .name { font-size: 32px !important; }
+        .person > p { font-size: 16px !important; }
+        .contact, .qr-cell { display: block !important; width: 100% !important; }
+        .contact td { font-size: 14px !important; }
+        .qr-cell { padding-top: 12px !important; text-align: center !important; }
+        .qr { margin: 0 auto; }
+        .lower { padding: 0 16px 20px !important; }
+        .footcol:first-child > table { width: 100%; }
+        .footcol:first-child > table td { display: block; width: 100%; box-sizing: border-box; padding: 0 !important; border: 0 !important; text-align: center; }
+        .footcol:first-child > table td:first-child { padding-bottom: 16px !important; }
+        .footcol:first-child > table td:first-child > div { width: 68px; margin: 0 auto; }
+        .footcol:first-child p { font-size: 13px !important; }
+        .movement > p:first-child { font-size: 18px !important; }
+        .movement > table td { padding: 11px 14px !important; font-size: 13px !important; }
+        .flag-group { gap: 12px !important; padding-right: 12px !important; }
+        .flag-group img { width: 36px !important; height: 26px !important; }
+      }
+      .email-flags {
+        width: 100%;
+        overflow: hidden;
+        max-width: 1100px;
+      }
+      .email-flag-track {
+        display: flex;
+        width: max-content;
+        animation: email-flags-scroll 62s linear infinite;
+      }
+      .flag-group {
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        gap: 14px;
+        padding-right: 14px;
+      }
+      .email-flags:hover .email-flag-track {
+        animation-play-state: paused;
+      }
+      @keyframes email-flags-scroll {
+        to {
+          transform: translateX(-50%);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .email-flag-track {
+          animation: none;
+        }
+      }
+      .card {
+        table-layout: fixed;
+      }
+    </style>
+  </head>
+  <body style="color: #111d83; font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif">
+    <!-- Design preview. Local image paths must be replaced with hosted URLs or CIDs before sending. Contact details retained from the supplied reference; QR uses the domain configured in the project. -->
+    <table role="presentation" width="100%">
+      <tr>
+        <td class="outer" align="center" style="padding: 0">
+          <table
+            role="presentation"
+            class="card"
+            width="1100"
+            style="width: 100%; max-width: 1100px; background: #ffffff"
+          >
+            <tr>
+              <td class="main" style="padding: 54px 40px 32px">
+                <table role="presentation" width="100%">
+                  <tr>
+                    <td
+                      class="column brand"
+                      width="48%"
+                      valign="top"
+                      style="padding: 0 30px 0 0; border-right: 1px solid #e6e5ec"
+                    >
+                      <img
+                        src="../images/logo-completa.png"
+                        width="430"
+                        alt="FindB"
+                        style="display: block; width: 100%; max-width: 430px; height: auto"
+                      />
+                      <table role="presentation" width="100%" style="margin-top: 15px">
+                        <tr>
+                          <td width="18%"><div style="height: 2px; background: #d63262"></div></td>
+                          <td
+                            align="center"
+                            style="font-size: 25px; letter-spacing: 12px; font-weight: 700; padding-left: 9px"
+                          >
+                            EUROPA
+                          </td>
+                          <td width="18%"><div style="height: 2px; background: #d63262"></div></td>
+                        </tr>
+                      </table>
+                      <p style="font-size: 24px; line-height: 1.4; font-weight: 700; margin: 16px 0 16px">
+                        Social Network <span style="color: #d63262">for Immigrants</span>
+                      </p>
+                      <table role="presentation" width="100%">
+                        <tr>
+                          <td width="25%" align="center" style="padding: 14px 2px 8px">
+                            <img
+                              src="assets/House.png"
+                              width="42"
+                              height="42"
+                              alt=""
+                              style="display: block; margin: 0 auto 8px"
+                            /><span style="font-size: 12px; font-weight: 600">Housing</span>
+                          </td>
+                          <td width="25%" align="center" style="padding: 14px 2px 8px">
+                            <img
+                              src="assets/BriefcaseBusiness.png"
+                              width="42"
+                              height="42"
+                              alt=""
+                              style="display: block; margin: 0 auto 8px"
+                            /><span style="font-size: 12px; font-weight: 600">Jobs</span>
+                          </td>
+                          <td width="25%" align="center" style="padding: 14px 2px 8px">
+                            <img
+                              src="assets/FileCheck2.png"
+                              width="42"
+                              height="42"
+                              alt=""
+                              style="display: block; margin: 0 auto 8px"
+                            /><span style="font-size: 12px; font-weight: 600">Documentation</span>
+                          </td>
+                          <td width="25%" align="center" style="padding: 14px 2px 8px">
+                            <img
+                              src="assets/Plane.png"
+                              width="42"
+                              height="42"
+                              alt=""
+                              style="display: block; margin: 0 auto 8px"
+                            /><span style="font-size: 12px; font-weight: 600">Immigration</span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td width="25%" align="center" style="padding: 14px 2px 8px">
+                            <img
+                              src="assets/TramFront.png"
+                              width="42"
+                              height="42"
+                              alt=""
+                              style="display: block; margin: 0 auto 8px"
+                            /><span style="font-size: 12px; font-weight: 600">Transport</span>
+                          </td>
+                          <td width="25%" align="center" style="padding: 14px 2px 8px">
+                            <img
+                              src="assets/UsersRound.png"
+                              width="42"
+                              height="42"
+                              alt=""
+                              style="display: block; margin: 0 auto 8px"
+                            /><span style="font-size: 12px; font-weight: 600">Communities</span>
+                          </td>
+                          <td width="25%" align="center" style="padding: 14px 2px 8px">
+                            <img
+                              src="assets/Handshake.png"
+                              width="42"
+                              height="42"
+                              alt=""
+                              style="display: block; margin: 0 auto 8px"
+                            /><span style="font-size: 12px; font-weight: 600">Networking</span>
+                          </td>
+                          <td width="25%" align="center" style="padding: 14px 2px 8px">
+                            <img
+                              src="assets/CalendarHeart.png"
+                              width="42"
+                              height="42"
+                              alt=""
+                              style="display: block; margin: 0 auto 8px"
+                            /><span style="font-size: 12px; font-weight: 600">Events</span>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                    <td class="column person" width="52%" valign="top" style="padding: 0 0 0 30px">
+                      <h1
+                        class="name"
+                        style="font-size: 44px; letter-spacing: -1.2px; line-height: 1.1; margin: 4px 0 10px"
+                      >
+                        João Carlos
+                      </h1>
+                      <p style="color: #d63262; font-size: 19px; font-weight: 500; line-height: 1.5; margin: 0">
+                        Founder &amp; CEO <span style="color: #cbc9d2">&nbsp;|&nbsp;</span> Project Manager
+                      </p>
+                      <p style="font-size: 20px; font-weight: 500; line-height: 1.5; margin: 22px 0">
+                        Building connections. Creating <strong style="font-weight: 600">opportunities.</strong
+                        ><br />Empowering our community
+                        <strong style="color: #d63262; font-weight: 600">across Europe.</strong>
+                      </p>
+                      <table role="presentation" width="100%" style="margin: 28px 0">
+                        <tr>
+                          <td valign="middle" width="46%">
+                            <div style="height: 2px; background: #d63262; font-size: 0; line-height: 0"></div>
+                          </td>
+                          <td align="center" style="color: #d63262; font-size: 21px; line-height: 1; padding: 0 10px">
+                            <img
+                              src="assets/heart.png"
+                              width="18"
+                              height="18"
+                              alt=""
+                              style="display: block; margin: 0 auto"
+                            />
+                          </td>
+                          <td valign="middle" width="46%">
+                            <div style="height: 2px; background: #d63262; font-size: 0; line-height: 0"></div>
+                          </td>
+                        </tr>
+                      </table>
+                      <table role="presentation" width="100%">
+                        <tr>
+                          <td valign="middle" class="contact">
+                            <table role="presentation" width="100%">
+                              <tr>
+                                <td width="38" style="padding: 17px 0">
+                                  <img src="assets/Mail.png" width="28" height="28" alt="" style="display: block" />
+                                </td>
+                                <td
+                                  style="
+                                    padding: 17px 0;
+                                    font-size: 15px;
+                                    font-weight: 500;
+                                    line-height: 1.4;
+                                    overflow-wrap: anywhere;
+                                  "
+                                >
+                                  <a href="mailto:partnerships@findbruropao.com">partnerships@findbruropao.com</a>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td width="38" style="padding: 17px 0">
+                                  <img src="assets/Globe.png" width="28" height="28" alt="" style="display: block" />
+                                </td>
+                                <td
+                                  style="
+                                    padding: 17px 0;
+                                    font-size: 15px;
+                                    font-weight: 500;
+                                    line-height: 1.4;
+                                    overflow-wrap: anywhere;
+                                  "
+                                >
+                                  www.findbruropao.com
+                                </td>
+                              </tr>
+                              <tr>
+                                <td width="38" style="padding: 17px 0">
+                                  <img src="assets/MapPin.png" width="28" height="28" alt="" style="display: block" />
+                                </td>
+                                <td
+                                  style="
+                                    padding: 17px 0;
+                                    font-size: 15px;
+                                    font-weight: 500;
+                                    line-height: 1.4;
+                                    overflow-wrap: anywhere;
+                                  "
+                                >
+                                  Europe
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                          <td class="qr-cell" width="136" align="right">
+                            <a href="https://findbeuropa.com"
+                              ><img
+                                class="qr"
+                                src="assets/qr.png"
+                                width="116"
+                                height="116"
+                                alt="Visit FindB Europa"
+                                style="display: block; padding: 6px; border: 1.5px solid #d63262; border-radius: 12px"
+                            /></a>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td class="lower" style="padding: 0 40px 26px">
+                <table role="presentation" width="100%" style="border-top: 1px solid #d9819a">
+                  <tr>
+                    <td style="padding-top: 22px">
+                      <table role="presentation" width="100%">
+                        <tr>
+                          <td class="footcol" width="44%" valign="middle">
+                            <table role="presentation">
+                              <tr>
+                                <td style="padding-right: 16px">
+                                  <div style="border: 1px solid #d9819a; border-radius: 50%; padding: 12px">
+                                    <img
+                                      src="../images/icone.png"
+                                      width="68"
+                                      height="68"
+                                      alt="FindB"
+                                      style="display: block; min-width: 68px"
+                                    />
+                                  </div>
+                                </td>
+                                <td style="padding-left: 16px; border-left: 1px solid #e5b6c4">
+                                  <strong style="font-size: 21px">FindB Europa</strong><br /><span
+                                    style="color: #d63262; font-size: 15px; font-weight: 700; line-height: 1.6"
+                                    >Social Network for Immigrants</span
+                                  >
+                                  <p style="font-size: 12px; font-weight: 500; line-height: 1.6; margin: 7px 0 0">
+                                    Information, support and real opportunities<br />for Brazilians and the
+                                    Portuguese-speaking<br />community in Europe.
+                                  </p>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                          <td class="footcol social" width="23%" align="center" valign="middle">
+                            <table
+                              role="presentation"
+                              style="border-left: 1px solid #e5b6c4; border-right: 1px solid #e5b6c4; width: 100%"
+                            >
+                              <tr>
+                                <td align="center" style="padding: 18px 10px; white-space: nowrap">
+                                  <img
+                                    src="assets/Facebook.png"
+                                    width="34"
+                                    height="34"
+                                    alt="Facebook"
+                                    style="display: inline-block; margin: 0 4px"
+                                  /><img
+                                    src="assets/Instagram.png"
+                                    width="34"
+                                    height="34"
+                                    alt="Instagram"
+                                    style="display: inline-block; margin: 0 4px"
+                                  /><img
+                                    src="assets/YouTube.png"
+                                    width="34"
+                                    height="34"
+                                    alt="YouTube"
+                                    style="display: inline-block; margin: 0 4px"
+                                  /><img
+                                    src="assets/LinkedIn.png"
+                                    width="34"
+                                    height="34"
+                                    alt="LinkedIn"
+                                    style="display: inline-block; margin: 0 4px"
+                                  />
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                          <td class="footcol movement" width="33%" valign="middle" style="padding-left: 26px">
+                            <p style="font-size: 19px; font-weight: 700; margin: 0 0 8px">
+                              Be part of this movement! &nbsp;<span style="color: #d63262"
+                                ><img
+                                  src="assets/heart.png"
+                                  width="22"
+                                  height="22"
+                                  alt=""
+                                  style="display: inline-block; vertical-align: middle; margin-bottom: 5px"
+                              /></span>
+                            </p>
+                            <p style="font-size: 14px; font-weight: 500; margin: 0 0 16px">
+                              Connect. Share. Grow. <span style="color: #d63262">Belong.</span>
+                            </p>
+                            <table
+                              role="presentation"
+                              style="
+                                background: #d63262;
+                                border-radius: 24px;
+                                border-collapse: separate;
+                                border-spacing: 0;
+                              "
+                            >
+                              <tr>
+                                <td
+                                  bgcolor="#111d83"
+                                  style="
+                                    border-radius: 24px;
+                                    padding: 11px 18px;
+                                    color: white;
+                                    font-size: 14px;
+                                    font-weight: 700;
+                                    white-space: nowrap;
+                                  "
+                                >
+                                  FOLLOW US
+                                </td>
+                                <td
+                                  bgcolor="#d63262"
+                                  style="
+                                    border-radius: 0 24px 24px 0;
+                                    padding: 11px 18px;
+                                    color: white;
+                                    font-size: 14px;
+                                    font-weight: 500;
+                                  "
+                                >
+                                  @findb.europa
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding: 16px 0">
+                <div class="email-flags" role="img" aria-label="Bandeiras dos países europeus">
+                  <div class="email-flag-track">
+                    <div class="flag-group">
+                      <img
+                        src="https://flagcdn.com/w80/pt.png"
+                        width="44"
+                        height="32"
+                        alt="Portugal"
+                        title="Portugal"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/es.png"
+                        width="44"
+                        height="32"
+                        alt="Espanha"
+                        title="Espanha"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/fr.png"
+                        width="44"
+                        height="32"
+                        alt="França"
+                        title="França"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/de.png"
+                        width="44"
+                        height="32"
+                        alt="Alemanha"
+                        title="Alemanha"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/it.png"
+                        width="44"
+                        height="32"
+                        alt="Itália"
+                        title="Itália"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/nl.png"
+                        width="44"
+                        height="32"
+                        alt="Países Baixos"
+                        title="Países Baixos"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/be.png"
+                        width="44"
+                        height="32"
+                        alt="Bélgica"
+                        title="Bélgica"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/ie.png"
+                        width="44"
+                        height="32"
+                        alt="Irlanda"
+                        title="Irlanda"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/at.png"
+                        width="44"
+                        height="32"
+                        alt="Áustria"
+                        title="Áustria"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/ch.png"
+                        width="44"
+                        height="32"
+                        alt="Suíça"
+                        title="Suíça"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/se.png"
+                        width="44"
+                        height="32"
+                        alt="Suécia"
+                        title="Suécia"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/no.png"
+                        width="44"
+                        height="32"
+                        alt="Noruega"
+                        title="Noruega"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/dk.png"
+                        width="44"
+                        height="32"
+                        alt="Dinamarca"
+                        title="Dinamarca"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/fi.png"
+                        width="44"
+                        height="32"
+                        alt="Finlândia"
+                        title="Finlândia"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/al.png"
+                        width="44"
+                        height="32"
+                        alt="Albânia"
+                        title="Albânia"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/ad.png"
+                        width="44"
+                        height="32"
+                        alt="Andorra"
+                        title="Andorra"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/ba.png"
+                        width="44"
+                        height="32"
+                        alt="Bósnia e Herzegovina"
+                        title="Bósnia e Herzegovina"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/bg.png"
+                        width="44"
+                        height="32"
+                        alt="Bulgária"
+                        title="Bulgária"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/cz.png"
+                        width="44"
+                        height="32"
+                        alt="Tchéquia"
+                        title="Tchéquia"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/cy.png"
+                        width="44"
+                        height="32"
+                        alt="Chipre"
+                        title="Chipre"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/hr.png"
+                        width="44"
+                        height="32"
+                        alt="Croácia"
+                        title="Croácia"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/sk.png"
+                        width="44"
+                        height="32"
+                        alt="Eslováquia"
+                        title="Eslováquia"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/si.png"
+                        width="44"
+                        height="32"
+                        alt="Eslovênia"
+                        title="Eslovênia"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/ee.png"
+                        width="44"
+                        height="32"
+                        alt="Estônia"
+                        title="Estônia"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/gr.png"
+                        width="44"
+                        height="32"
+                        alt="Grécia"
+                        title="Grécia"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/hu.png"
+                        width="44"
+                        height="32"
+                        alt="Hungria"
+                        title="Hungria"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/is.png"
+                        width="44"
+                        height="32"
+                        alt="Islândia"
+                        title="Islândia"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/xk.png"
+                        width="44"
+                        height="32"
+                        alt="Kosovo"
+                        title="Kosovo"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/lv.png"
+                        width="44"
+                        height="32"
+                        alt="Letônia"
+                        title="Letônia"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/li.png"
+                        width="44"
+                        height="32"
+                        alt="Liechtenstein"
+                        title="Liechtenstein"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/lt.png"
+                        width="44"
+                        height="32"
+                        alt="Lituânia"
+                        title="Lituânia"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/lu.png"
+                        width="44"
+                        height="32"
+                        alt="Luxemburgo"
+                        title="Luxemburgo"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/mk.png"
+                        width="44"
+                        height="32"
+                        alt="Macedônia do Norte"
+                        title="Macedônia do Norte"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/mt.png"
+                        width="44"
+                        height="32"
+                        alt="Malta"
+                        title="Malta"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/md.png"
+                        width="44"
+                        height="32"
+                        alt="Moldávia"
+                        title="Moldávia"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/mc.png"
+                        width="44"
+                        height="32"
+                        alt="Mônaco"
+                        title="Mônaco"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/me.png"
+                        width="44"
+                        height="32"
+                        alt="Montenegro"
+                        title="Montenegro"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/pl.png"
+                        width="44"
+                        height="32"
+                        alt="Polônia"
+                        title="Polônia"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/gb.png"
+                        width="44"
+                        height="32"
+                        alt="Reino Unido"
+                        title="Reino Unido"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/ro.png"
+                        width="44"
+                        height="32"
+                        alt="Romênia"
+                        title="Romênia"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/sm.png"
+                        width="44"
+                        height="32"
+                        alt="San Marino"
+                        title="San Marino"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/rs.png"
+                        width="44"
+                        height="32"
+                        alt="Sérvia"
+                        title="Sérvia"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/ua.png"
+                        width="44"
+                        height="32"
+                        alt="Ucrânia"
+                        title="Ucrânia"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/va.png"
+                        width="44"
+                        height="32"
+                        alt="Vaticano"
+                        title="Vaticano"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      />
+                    </div>
+                    <div class="flag-group" aria-hidden="true">
+                      <img
+                        src="https://flagcdn.com/w80/pt.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Portugal"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/es.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Espanha"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/fr.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="França"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/de.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Alemanha"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/it.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Itália"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/nl.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Países Baixos"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/be.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Bélgica"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/ie.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Irlanda"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/at.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Áustria"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/ch.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Suíça"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/se.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Suécia"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/no.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Noruega"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/dk.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Dinamarca"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/fi.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Finlândia"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/al.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Albânia"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/ad.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Andorra"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/ba.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Bósnia e Herzegovina"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/bg.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Bulgária"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/cz.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Tchéquia"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/cy.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Chipre"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/hr.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Croácia"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/sk.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Eslováquia"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/si.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Eslovênia"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/ee.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Estônia"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/gr.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Grécia"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/hu.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Hungria"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/is.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Islândia"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/xk.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Kosovo"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/lv.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Letônia"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/li.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Liechtenstein"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/lt.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Lituânia"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/lu.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Luxemburgo"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/mk.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Macedônia do Norte"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/mt.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Malta"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/md.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Moldávia"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/mc.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Mônaco"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/me.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Montenegro"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/pl.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Polônia"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/gb.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Reino Unido"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/ro.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Romênia"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/sm.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="San Marino"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/rs.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Sérvia"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/ua.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Ucrânia"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      /><img
+                        src="https://flagcdn.com/w80/va.png"
+                        width="44"
+                        height="32"
+                        alt=""
+                        title="Vaticano"
+                        style="
+                          display: block;
+                          width: 44px;
+                          height: 32px;
+                          object-fit: cover;
+                          border-radius: 4px;
+                          flex-shrink: 0;
+                        "
+                      />
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
