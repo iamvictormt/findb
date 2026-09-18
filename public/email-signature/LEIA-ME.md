@@ -2,7 +2,7 @@
 
 - `preview-en.html`: visualização local da assinatura em inglês.
 - `preview-pt.html`: visualização local da assinatura em português.
-- `signature-en.html`: assinatura em inglês com URLs públicas.
+- `Os ícones ficam desalinhados,já tentei alinhar mas mas não deu certo..html`: assinatura em inglês com URLs públicas.
 - `signature-pt.html`: assinatura em português com URLs públicas.
 - `preview.html` e `signature.html`: aliases mantidos para a versão em inglês.
 - `assets/flags.gif`: animação das bandeiras, sem JavaScript ou animação CSS.
